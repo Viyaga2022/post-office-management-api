@@ -14,8 +14,43 @@ const leaveSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    from: {
+        type: Date,
+        required: true,
+    },
+    to: {
+        type: Date,
+        required: true,
+    },
+    days: {
+        type: Number,
+        required: true,
+        min: 1,
+    },
+    substitute: {
+        type: String,
+        required: true,
+    },
     accountNo: {
-        type: Number
+        type: Number,
+        required: true,
+    },
+    remarks: {
+        type: String,
+        required: true,
+    },
+    leaveType: {
+        type: String,
+        required: true,
+    },
+    postmanBeatNo: {
+        type: String,
+    },
+    reference: {
+        type: String,
+    },
+    sendToHoOn: {
+        type: Date,
     }
 })
 
