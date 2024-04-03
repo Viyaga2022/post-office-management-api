@@ -1,6 +1,29 @@
 const ash = require('express-async-handler')
 const Employee = require('../../models/employee/employeeModel');
 
+const uploadEmployesToDB = async () => {
+    const results = [];
+    fs.createReadStream("./pincode.csv")
+        .pipe(csv())
+        .on('data', (data) => {
+            const selectedData = {
+                area: textCapitalize(data.area).trim(),
+                type: data.type.toUpperCase().trim(),
+                pincode: parseInt(data.pincode), // Convert pincode to number
+                district: textCapitalize(data.district).trim(),
+                state: textCapitalize(data.state).trim(),
+            };
+            results.push(selectedData);
+        })
+        .on('end', async () => {
+            try {
+                await Franchise.insertMany(results);
+            } catch (error) {
+                console.log({ error })
+            }
+        })
+}
+
 // Create a new employee
 createEmployee = ash(async (req, res) => {
     try {
