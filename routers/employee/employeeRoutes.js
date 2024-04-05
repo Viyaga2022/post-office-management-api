@@ -6,7 +6,7 @@ const { protect } = require('../../middlewares/auth/authMiddleware');
 
 router.post('/', createEmployee);
 
-router.get('/upload/:fileName', uploadEmployeesToDB);
+router.get('/upload/:fileName', protect, uploadEmployeesToDB);
 
 router.get('/:employeeType', getAllEmployees);
 
