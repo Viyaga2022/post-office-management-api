@@ -19,7 +19,7 @@ app.use(bodyParser.json())
 
 app.use('/api/admin', adminRouter)
 app.use('/api/leave', leaveRouter)
-app.use('/api/employee', employeeRouter)
+app.use('/api/employees', employeeRouter)
 
 app.use(errorHandler)
 
