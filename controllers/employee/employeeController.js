@@ -5,16 +5,18 @@ const csv = require('csv-parser');
 const { textCapitalize } = require('../../service');
 
 const uploadEmployeesToDB = ash(async (req, res) => {
+    const { fileName } = req.params
     const results = [];
-    fs.createReadStream("./files/employee-details.csv")
+
+    fs.createReadStream(`./files/${fileName}`) //./files/employee-details.csv
         .pipe(csv())
         .on('data', (data) => {
             const selectedData = {
                 name: data.name ? textCapitalize(data.name).trim() : "NO DATA",
                 employeeType: data.officeName ? "regular" : "substitute",
-                designation: data.officeName ? data.designation.toUpperCase().trim() : null,
-                officeName: data.officeName ? textCapitalize(data.officeName).trim() : null,
-                accountNo: data.officeName ? null : textCapitalize(data.accountNo).trim(),
+                designation: data.officeName ? data.designation.toUpperCase().trim() : undefined,
+                officeName: data.officeName ? textCapitalize(data.officeName).trim() : undefined,
+                accountNo: data.officeName ? undefined : textCapitalize(data.accountNo).trim(),
             };
             results.push(selectedData);
         })
@@ -25,7 +27,7 @@ const uploadEmployeesToDB = ash(async (req, res) => {
 })
 
 // Create a new employee
-createEmployee = ash(async (req, res) => {
+const createEmployee = ash(async (req, res) => {
     try {
         const employee = new Employee(req.body);
         await employee.save();
@@ -36,17 +38,19 @@ createEmployee = ash(async (req, res) => {
 });
 
 // Get all employees
-getAllEmployees = ash(async (req, res) => {
+const getAllEmployees = ash(async (req, res) => {
+    const { employeeType } = req.params
+
     try {
-        const employees = await Employee.find();
-        res.json(employees);
+        const employees = await Employee.find({ employeeType });
+        res.json({ employees });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
 // Get a single employee by ID
-getEmployeeById = ash(async (req, res) => {
+const getEmployeeById = ash(async (req, res) => {
     try {
         const employee = await Employee.findById(req.params.id);
         if (!employee) {
@@ -59,7 +63,7 @@ getEmployeeById = ash(async (req, res) => {
 });
 
 // Update an employee
-updateEmployee = ash(async (req, res) => {
+const updateEmployee = ash(async (req, res) => {
     try {
         const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!employee) {
@@ -72,7 +76,7 @@ updateEmployee = ash(async (req, res) => {
 });
 
 // Delete an employee
-deleteEmployee = ash(async (req, res) => {
+const deleteEmployee = ash(async (req, res) => {
     try {
         const employee = await Employee.findByIdAndDelete(req.params.id);
         if (!employee) {

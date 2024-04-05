@@ -18,7 +18,6 @@ const employeeSchema = new mongoose.Schema({
     },
     accountNo: {
         type: String,
-        default: null,
     }
 })
 

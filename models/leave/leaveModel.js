@@ -27,12 +27,12 @@ const leaveSchema = new mongoose.Schema({
         required: true,
         min: 1,
     },
-    substitute: {
+    substituteName: {
         type: String,
         required: true,
     },
     accountNo: {
-        type: Number,
+        type: String,
         required: true,
     },
     remarks: {
@@ -54,4 +54,4 @@ const leaveSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Employee', leaveSchema)
+module.exports = mongoose.model('Leave', leaveSchema)
