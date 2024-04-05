@@ -17,7 +17,8 @@ const employeeSchema = new mongoose.Schema({
         type: String,
     },
     accountNo: {
-        type: Number
+        type: String,
+        default: null,
     }
 })
 

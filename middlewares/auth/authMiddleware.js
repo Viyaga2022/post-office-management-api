@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken')
 const ash = require('express-async-handler')
-// const User = require('../models/user/userModel')
+const Admin = require('../../models/admin/adminModel')
 
 const protect = ash(async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         let token = req.headers.authorization.split(' ')[1]
         const decode = jwt.verify(token, process.env.JWT_SECRET)
-        req.user = await User.findOne({ _id: decode.id }).select('-password')
+        req.user = await Admin.findOne({ _id: decode.id }).select('-password')
         if (!req.user) {
             return res.status(404).json({ message: "InValid Token" })
         }

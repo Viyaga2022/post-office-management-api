@@ -1,28 +1,28 @@
 const ash = require('express-async-handler')
 const Employee = require('../../models/employee/employeeModel');
+const fs = require('fs')
+const csv = require('csv-parser');
+const { textCapitalize } = require('../../service');
 
-const uploadEmployesToDB = async () => {
+const uploadEmployeesToDB = ash(async (req, res) => {
     const results = [];
-    fs.createReadStream("./pincode.csv")
+    fs.createReadStream("./files/employee-details.csv")
         .pipe(csv())
         .on('data', (data) => {
             const selectedData = {
-                area: textCapitalize(data.area).trim(),
-                type: data.type.toUpperCase().trim(),
-                pincode: parseInt(data.pincode), // Convert pincode to number
-                district: textCapitalize(data.district).trim(),
-                state: textCapitalize(data.state).trim(),
+                name: data.name ? textCapitalize(data.name).trim() : "NO DATA",
+                employeeType: data.officeName ? "regular" : "substitute",
+                designation: data.officeName ? data.designation.toUpperCase().trim() : null,
+                officeName: data.officeName ? textCapitalize(data.officeName).trim() : null,
+                accountNo: data.officeName ? null : textCapitalize(data.accountNo).trim(),
             };
             results.push(selectedData);
         })
         .on('end', async () => {
-            try {
-                await Franchise.insertMany(results);
-            } catch (error) {
-                console.log({ error })
-            }
+            await Employee.insertMany(results);
+            res.status(200).json({ message: "uploaded succesfully" })
         })
-}
+})
 
 // Create a new employee
 createEmployee = ash(async (req, res) => {
@@ -84,6 +84,6 @@ deleteEmployee = ash(async (req, res) => {
     }
 });
 
-module.exports = { createEmployee, getAllEmployees, getEmployeeById, updateEmployee, deleteEmployee }
+module.exports = { uploadEmployeesToDB, createEmployee, getAllEmployees, getEmployeeById, updateEmployee, deleteEmployee }
 
 

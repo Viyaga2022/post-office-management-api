@@ -10,8 +10,8 @@ const { errorHandler } = require('./middlewares/error/errorMiddleware')
 const { connectDB } = require('./database/db')
 
 const app = express()
+const port = process.env.PORT
 connectDB()
-
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -23,6 +23,6 @@ app.use('/api/employee', employeeRouter)
 
 app.use(errorHandler)
 
-app.listen(6000, () => {
-    console.log(`server runs on port 6000`)
+app.listen(port, () => {
+    console.log(`server runs on port ${port}`)
 })
