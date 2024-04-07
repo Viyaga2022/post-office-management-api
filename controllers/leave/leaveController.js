@@ -18,7 +18,7 @@ const uploadLeaveToDB = ash(async (req, res) => {
                 to: formatDate(data.to),
                 days: data.days ? parseInt(data.days) : undefined,
                 substituteName: textCapitalize(data.substituteName).trim(),
-                accountNo: data.accountNo.trim(),
+                accountNo: data.accountNo ? data.accountNo.trim() : undefined,
                 remarks: data.remarks ? textCapitalize(data.remarks) : undefined,
                 leaveType: textCapitalize(data.leaveType).trim(),
                 postmanBeatNo: data.postmanBeatNo ? data.postmanBeatNo : undefined,
@@ -41,6 +41,12 @@ const createLeave = ash(async (req, res) => {
 
 const getLeaves = ash(async (req, res) => {
     const { leaveType } = req.params
+
+    if (leaveType === 'pending') {
+        const leaves = await Leave.find({ leaveType: "", substituteName: "" });
+        return res.status(200).json({ leaves });
+    }
+
     const leaves = await Leave.find({ leaveType });
     res.status(200).json({ leaves });
 });
