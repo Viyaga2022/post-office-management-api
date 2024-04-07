@@ -5,4 +5,17 @@ const textCapitalize = (text) => {
     return sentence
 }
 
-module.exports = { textCapitalize }
+const formatDate = (dateString) => {
+    if (!dateString) return undefined;
+    let date = dateString.split('-').join('/')
+    const [month, day, year] = date.split('/').map(Number); //if the date string is in the format 'mm-dd-yyyy' or 'm-d-yyyy'
+    return new Date(year, month - 1, day);  // Month is zero-based in JavaScript Date constructor, so subtract 1 from the month
+}
+
+const findNumberOfDaysBetweenDates = (startDate, endDate) => {
+    const differenceInMs = endDate.getTime() - startDate.getTime();  //2024-01-08 examble date
+    const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);    // Convert milliseconds to days
+    return Math.round(differenceInDays);
+}
+
+module.exports = { textCapitalize, formatDate, findNumberOfDaysBetweenDates }

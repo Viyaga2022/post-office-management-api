@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/api/admin', adminRouter)
-app.use('/api/leave', leaveRouter)
+app.use('/api/leaves', leaveRouter)
 app.use('/api/employees', employeeRouter)
 
 app.use(errorHandler)
