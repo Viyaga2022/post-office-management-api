@@ -13,6 +13,10 @@ const adminSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    subDivisionName: {
+        type: String,
+        required: true,
     }
 })
 
