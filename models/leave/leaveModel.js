@@ -52,7 +52,12 @@ const leaveSchema = new mongoose.Schema(
         },
         sendToHoOn: {
             type: Date,
-        }
+        },
+        status: {
+            type: Number,
+            enum: [0, 1],
+            default: 0,
+        },
     },
     {
         timestamps: true,

@@ -43,7 +43,7 @@ const getLeaves = ash(async (req, res) => {
     const { leaveType } = req.params
 
     if (leaveType === 'pending') {
-        const leaves = await Leave.find({ leaveType: "", substituteName: "" });
+        const leaves = await Leave.find({ $or: [{ status: 0 }, { leaveType: "" }] });
         return res.status(200).json({ leaves });
     }
 
