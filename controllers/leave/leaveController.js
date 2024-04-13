@@ -72,10 +72,12 @@ const updateLeave = ash(async (req, res) => {
 
 const deleteLeave = ash(async (req, res) => {
     const leave = await Leave.findByIdAndDelete(req.params.id);
+
     if (!leave) {
-        return res.status(404).json({ success: false, error: 'Leave not found' });
+        return res.status(404).json({ message: 'Leave already approved or not found' });
     }
-    res.status(200).json({ success: true, data: {} });
+   
+    res.status(200).json({ leaveId: req.params.id });
 });
 
 module.exports = { uploadLeaveToDB, createLeave, getLeaves, getLeave, updateLeave, deleteLeave }
