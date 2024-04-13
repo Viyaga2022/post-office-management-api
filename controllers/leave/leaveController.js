@@ -34,6 +34,9 @@ const uploadLeaveToDB = ash(async (req, res) => {
 })
 
 const createLeave = ash(async (req, res) => {
+    const { name, designation, officeName, from, to, days,
+        substituteName, accountNo, remarks, leaveType, status } = req.body
+    
     const leave = new Leave(req.body);
     await leave.save();
     res.status(201).json({ success: true, data: leave });
@@ -76,7 +79,7 @@ const deleteLeave = ash(async (req, res) => {
     if (!leave) {
         return res.status(404).json({ message: 'Leave already approved or not found' });
     }
-   
+
     res.status(200).json({ leaveId: req.params.id });
 });
 

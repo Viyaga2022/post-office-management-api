@@ -44,15 +44,6 @@ const leaveSchema = new mongoose.Schema(
             type: String,
             //required: true,
         },
-        postmanBeatNo: {
-            type: String,
-        },
-        reference: {
-            type: String,
-        },
-        sendToHoOn: {
-            type: Date,
-        },
         status: {
             type: Number,
             enum: [0, 1],
