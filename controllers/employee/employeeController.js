@@ -33,6 +33,11 @@ const createEmployee = ash(async (req, res) => {
     res.status(201).json(employee);
 });
 
+const getAllOffices = ash(async (req, res) => {
+    const offices = await Employee.distinct('officeName', { employeeType: 'regular' });
+    res.json({ offices, total: offices.length });
+});
+
 // Get all employees
 const getAllEmployees = ash(async (req, res) => {
     const { employeeType } = req.params
@@ -67,6 +72,6 @@ const deleteEmployee = ash(async (req, res) => {
     res.json({ message: 'Employee deleted successfully' });
 });
 
-module.exports = { uploadEmployeesToDB, createEmployee, getAllEmployees, getEmployeeById, updateEmployee, deleteEmployee }
+module.exports = { uploadEmployeesToDB, createEmployee, getAllOffices, getAllEmployees, getEmployeeById, updateEmployee, deleteEmployee }
 
 
