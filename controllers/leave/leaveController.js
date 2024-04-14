@@ -1,8 +1,9 @@
 const ash = require('express-async-handler')
 const fs = require('fs')
 const csv = require('csv-parser')
+const z = require('zod')
 const Leave = require('../../models/leave/leaveModel');
-const { textCapitalize, formatDate } = require('../../service');
+const { textCapitalize, formatDate, findNumberOfDaysBetweenDates } = require('../../service');
 
 const uploadLeaveToDB = ash(async (req, res) => {
     const { fileName } = req.params
@@ -34,11 +35,29 @@ const uploadLeaveToDB = ash(async (req, res) => {
 })
 
 const createLeave = ash(async (req, res) => {
-    const { name, designation, officeName, from, to, days,
+    const { name, designation, officeName, from, to,
         substituteName, accountNo, remarks, leaveType, status } = req.body
-    
-    const leave = new Leave(req.body);
-    await leave.save();
+
+    let days = 0
+    if (from && to) {
+        days = findNumberOfDaysBetweenDates(from, to)
+    }
+
+    const leaveData = {
+        name, designation, officeName, from, to, days,
+        substituteName, accountNo, remarks, leaveType, status:parseInt(status)
+    }
+
+    const isValidData = isValidLeaveData(leaveData)
+
+    if (!isValidData?.success) return res.status(401).json({ message: "Invalid Data", error: isValidData.error })
+
+    const date = new Date(2024, 9, 1)
+
+    console.log({ body: req.body, date, isValidData });
+
+
+    const leave = await Leave.create(leaveData);
     res.status(201).json({ success: true, data: leave });
 });
 
@@ -82,5 +101,36 @@ const deleteLeave = ash(async (req, res) => {
 
     res.status(200).json({ leaveId: req.params.id });
 });
+
+// common functions =========================================
+
+const isValidLeaveData = (leaveData) => {
+
+    let isValidData = false
+    if (leaveData.status === 1) {
+        isValidData = z.object({
+            name: z.string().min(1).max(50),
+            designation: z.string().min(1).max(10),
+            officeName: z.string().min(1).max(50),
+            from: z.string().max(100),
+            to: z.string().max(100),
+            days: z.number(),
+            substituteName: z.string().max(50),
+            accountNo: z.string().max(20),
+            remarks: z.string().max(100),
+            leaveType: z.string().max(100),
+            status: z.number(),
+        }).safeParse(leaveData)
+    } else if (leaveData.status === 0) {
+        isValidData = z.object({
+            name: z.string().min(1).max(50),
+            designation: z.string().min(1).max(10),
+            officeName: z.string().min(1).max(50),
+        }).safeParse(leaveData)
+    }
+
+    console.log({isValidData});
+    return isValidData
+}
 
 module.exports = { uploadLeaveToDB, createLeave, getLeaves, getLeave, updateLeave, deleteLeave }

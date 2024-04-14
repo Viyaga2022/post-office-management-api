@@ -9,7 +9,7 @@ const leaveSchema = new mongoose.Schema(
         designation: {
             type: String,
             required: true,
-            enum: ['BPM', 'ABPM', 'DAK SEVAK', 'ABPM I', 'ABPM II']
+            enum: ['bpm', 'abpm', 'dak sevak', 'abpm i', 'abpm ii']
         },
         officeName: {
             type: String,
