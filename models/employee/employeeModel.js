@@ -19,11 +19,12 @@ const employeeSchema = new mongoose.Schema(
         },
         accountNo: {
             type: String,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now
         }
     },
-    {
-        timestamps: true,
-    }
 )
 
 module.exports = mongoose.model('Employee', employeeSchema)

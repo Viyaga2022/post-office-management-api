@@ -12,19 +12,16 @@ const uploadLeaveToDB = ash(async (req, res) => {
         .pipe(csv())
         .on('data', (data) => {
             const selectedData = {
-                name: data.name ? textCapitalize(data.name).trim() : "NO DATA",
-                designation: data.designation.toUpperCase().trim(),
-                officeName: textCapitalize(data.officeName).trim(),
+                name: data.name ? data.name.trim().toLowerCase() : "NO DATA",
+                designation: data.designation.trim().toLowerCase(),
+                officeName: data.officeName.trim().toLowerCase(),
                 from: formatDate(data.from),
                 to: formatDate(data.to),
                 days: data.days ? parseInt(data.days) : undefined,
-                substituteName: textCapitalize(data.substituteName).trim(),
+                substituteName: data.substituteName.trim().toLowerCase(),
                 accountNo: data.accountNo ? data.accountNo.trim() : undefined,
-                remarks: data.remarks ? textCapitalize(data.remarks) : undefined,
-                leaveType: textCapitalize(data.leaveType).trim(),
-                postmanBeatNo: data.postmanBeatNo ? data.postmanBeatNo : undefined,
-                reference: data.reference ? data.reference : undefined,
-                sendToHoOn: formatDate(data.sendToHoOn),
+                remarks: data.remarks ? data.remarks.trim().toLowerCase() : undefined,
+                leaveType: data.leaveType? data.leaveType.trim().toLowerCase(): undefined,
             };
             results.push(selectedData);
         })
@@ -45,7 +42,7 @@ const createLeave = ash(async (req, res) => {
 
     const leaveData = {
         name, designation, officeName, from, to, days,
-        substituteName, accountNo, remarks, leaveType, status:parseInt(status)
+        substituteName, accountNo, remarks, leaveType, status: parseInt(status)
     }
 
     const isValidData = isValidLeaveData(leaveData)
@@ -129,7 +126,7 @@ const isValidLeaveData = (leaveData) => {
         }).safeParse(leaveData)
     }
 
-    console.log({isValidData});
+    console.log({ isValidData });
     return isValidData
 }
 

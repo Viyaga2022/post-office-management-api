@@ -12,11 +12,11 @@ const uploadEmployeesToDB = ash(async (req, res) => {
         .pipe(csv())
         .on('data', (data) => {
             const selectedData = {
-                name: data.name ? textCapitalize(data.name).trim() : "NO DATA",
+                name: data.name ? data.name.trim().toLowerCase() : "NO DATA",
                 employeeType: data.officeName ? "regular" : "substitute",
-                designation: data.officeName ? data.designation.toUpperCase().trim() : undefined,
-                officeName: data.officeName ? textCapitalize(data.officeName).trim() : undefined,
-                accountNo: data.officeName ? undefined : textCapitalize(data.accountNo).trim(),
+                designation: data.officeName ? data.designation.trim().toLowerCase() : undefined,
+                officeName: data.officeName ? data.officeName.trim().toLowerCase() : undefined,
+                accountNo: data.officeName ? undefined : data.accountNo.trim().toLowerCase(),
             };
             results.push(selectedData);
         })
