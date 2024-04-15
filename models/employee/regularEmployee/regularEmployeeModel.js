@@ -1,23 +1,15 @@
 const mongoose = require('mongoose')
 
-const employeeSchema = new mongoose.Schema(
+const regularEmployeeSchema = new mongoose.Schema(
     {
         name: {
             type: String,
             required: true,
         },
-        employeeType: {
-            type: String,
-            required: true,
-            enum: ['regular', 'substitute']
-        },
         designation: {
             type: String,
         },
         officeName: {
-            type: String,
-        },
-        accountNo: {
             type: String,
         },
         createdAt: {
@@ -27,4 +19,4 @@ const employeeSchema = new mongoose.Schema(
     },
 )
 
-module.exports = mongoose.model('Employee', employeeSchema)
+module.exports = mongoose.model('RegularEmployee', regularEmployeeSchema)
