@@ -2,6 +2,7 @@ const ash = require('express-async-handler')
 const RegularEmployee = require('../../../models/employee/regularEmployee/regularEmployeeModel');
 const fs = require('fs')
 const csv = require('csv-parser');
+const { z } = require('zod');
 
 const uploadRegularEmployeesToDB = ash(async (req, res) => {
     const { fileName } = req.params
@@ -24,14 +25,25 @@ const uploadRegularEmployeesToDB = ash(async (req, res) => {
 })
 
 const createRegularEmployee = ash(async (req, res) => {
-    const employee = new RegularEmployee(req.body);
-    await employee.save();
-    res.status(201).json(employee);
+    const { name, designation, officeName } = req.body
+
+    const parsedData = z.object({
+        name: z.string().min(1).max(50),
+        designation: z.string().min(1).max(10),
+        officeName: z.string().min(1).max(50),
+    }).safeParse(req.body)
+
+    if (parsedData?.success) {
+        await RegularEmployee.create({ name, designation, officeName });
+        return res.status(201).json({ message: "Employee Created Successfully" });
+    }
+
+    res.status(401).json({ message: "Invalid Data" })
 });
 
 const getAllOffices = ash(async (req, res) => {
     const offices = await Employee.distinct('officeName', { employeeType: 'regular' });
-    res.json({ offices, total: offices.length });
+    res.status(200).json({ offices, total: offices.length });
 });
 
 const getAllRegularEmployees = ash(async (req, res) => {
@@ -40,23 +52,33 @@ const getAllRegularEmployees = ash(async (req, res) => {
 });
 
 const getRegularEmployeeById = ash(async (req, res) => {
-    const employee = await Employee.findById(req.params.id);
+    const employee = await RegularEmployee.findById(req.params.id);
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }
-    res.json(employee);
+    res.status(200).json(employee);
 });
 
 const updateRegularEmployee = ash(async (req, res) => {
-    const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!employee) {
-        return res.status(404).json({ message: 'Employee not found' });
+    const { name, designation, officeName } = req.body
+    const id = req.params.id
+
+    const parsedData = z.object({
+        name: z.string().min(1).max(50),
+        designation: z.string().min(1).max(10),
+        officeName: z.string().min(1).max(50),
+    }).safeParse(req.body)
+
+    if (parsedData?.success) {
+        await RegularEmployee.findByIdAndUpdate(id, { name, designation, officeName });
+        return res.status(201).json({ message: "Employee Updated Successfully" });
     }
-    res.json(employee);
+
+    res.status(401).json({ message: "Invalid Data" })
 });
 
 const deleteRegularEmployee = ash(async (req, res) => {
-    const employee = await Employee.findByIdAndDelete(req.params.id);
+    const employee = await RegularEmployee.findByIdAndDelete(req.params.id);
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }
