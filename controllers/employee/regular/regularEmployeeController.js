@@ -34,8 +34,8 @@ const createRegularEmployee = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (parsedData?.success) {
-        await RegularEmployee.create({ name, designation, officeName });
-        return res.status(201).json({ message: "Employee Created Successfully" });
+        const employee = await RegularEmployee.create({ name, designation, officeName });
+        return res.status(201).json({ message: "Employee Created Successfully", employee });
     }
 
     res.status(401).json({ message: "Invalid Data" })
@@ -56,7 +56,7 @@ const getRegularEmployeeById = ash(async (req, res) => {
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }
-    res.status(200).json(employee);
+    res.status(200).json({ employee });
 });
 
 const updateRegularEmployee = ash(async (req, res) => {
@@ -70,8 +70,8 @@ const updateRegularEmployee = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (parsedData?.success) {
-        await RegularEmployee.findByIdAndUpdate(id, { name, designation, officeName });
-        return res.status(201).json({ message: "Employee Updated Successfully" });
+        const employee = await RegularEmployee.findByIdAndUpdate(id, { name, designation, officeName }, { new: true });
+        return res.status(201).json({ message: "Employee Updated Successfully", employee });
     }
 
     res.status(401).json({ message: "Invalid Data" })
@@ -82,7 +82,7 @@ const deleteRegularEmployee = ash(async (req, res) => {
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }
-    res.json({ message: 'Employee deleted successfully' });
+    res.json({ message: 'Employee deleted successfully', employee });
 });
 
 module.exports = {
