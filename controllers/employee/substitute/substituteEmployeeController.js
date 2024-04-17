@@ -2,11 +2,13 @@ const ash = require('express-async-handler')
 const SubstituteEmployee = require('../../../models/employee/substituteEmployee/substituteEmployeeModel');
 const fs = require('fs')
 const csv = require('csv-parser');
+const { z } = require('zod');
+const { log } = require('console');
 
 const uploadSubstituteEmployeesToDB = ash(async (req, res) => {
     const { fileName } = req.params
     const results = [];
-
+    c
     fs.createReadStream(`./files/${fileName}`) //./files/employee-details.csv
         .pipe(csv())
         .on('data', (data) => {
@@ -23,39 +25,59 @@ const uploadSubstituteEmployeesToDB = ash(async (req, res) => {
 })
 
 const createSubstituteEmployee = ash(async (req, res) => {
-    const employee = new Employee(req.body);
-    await employee.save();
-    res.status(201).json(employee);
+    const { name, accountNo } = req.body
+
+    const parsedData = z.object({
+        name: z.string().min(1).max(50),
+        accountNo: z.string().min(1).max(20),
+    }).safeParse(req.body)
+
+    console.log({err:parsedData.error})
+    if (parsedData.success) {
+        const employee = await SubstituteEmployee.create({ name, accountNo });
+        res.status(201).json({ message: "Employee Created Successfully", employee });
+    }
+
+    res.status(401).json({ message: "Invalid Data" })
+
 });
 
 const getAllSubstituteEmployees = ash(async (req, res) => {
-    const { employeeType } = req.params
-    const employees = await Employee.find({ employeeType });
+    const employees = await SubstituteEmployee.find();
     res.json({ employees });
 });
 
 const getSubstituteEmployeeById = ash(async (req, res) => {
-    const employee = await Employee.findById(req.params.id);
+    const employee = await SubstituteEmployee.findById(req.params.id);
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }
-    res.json(employee);
+    res.status(200).json({ employee });
 });
 
 const updateSubstituteEmployee = ash(async (req, res) => {
-    const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!employee) {
-        return res.status(404).json({ message: 'Employee not found' });
+    const { name, accountNo } = req.body
+    const id = req.params.id
+
+    const parsedData = z.object({
+        name: z.string().min(1).max(50),
+        accountNo: z.string().min(1).max(20),
+    }).safeParse(req.body)
+
+    if (parsedData.success) {
+        const employee = await SubstituteEmployee.findByIdAndUpdate(id, { name, accountNo }, { new: true });
+        return res.status(201).json({ message: "Employee Updated Successfully", employee });
     }
-    res.json(employee);
+
+    res.status(401).json({ message: "Invalid Data" })
 });
 
 const deleteSubstituteEmployee = ash(async (req, res) => {
-    const employee = await Employee.findByIdAndDelete(req.params.id);
+    const employee = await SubstituteEmployee.findByIdAndDelete(req.params.id);
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }
-    res.json({ message: 'Employee deleted successfully' });
+    res.json({ message: 'Employee deleted successfully', employee });
 });
 
 module.exports = {
