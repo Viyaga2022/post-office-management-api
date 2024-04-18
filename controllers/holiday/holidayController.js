@@ -21,7 +21,6 @@ const createHoliday = ash(async (req, res) => {
 
 const getAllHolidays = ash(async (req, res) => {
     const holidays = await Holiday.find();
-    console.log({holidays});
     res.status(200).json({ holidays });
 });
 
@@ -43,8 +42,8 @@ const updateHoliday = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (parsedData.success) {
-        const holiday = await Holiday.findByIdAndUpdate(id, { holiday, date }, { new: true });
-        return res.status(201).json({ message: "Holiday Updated Successfully", holiday });
+        const holidayData = await Holiday.findByIdAndUpdate(id, { holiday, date }, { new: true });
+        return res.status(201).json({ message: "Holiday Updated Successfully", holiday: holidayData });
     }
 
     res.status(401).json({ message: "Invalid Data" })
