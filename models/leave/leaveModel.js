@@ -15,6 +15,11 @@ const leaveSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        subdivisionName: {
+            type: String,
+            required: true,
+            default: 'tirumangalam'
+        },
         from: {
             type: Date,
             //required: true,

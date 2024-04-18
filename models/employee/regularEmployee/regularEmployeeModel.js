@@ -12,6 +12,11 @@ const regularEmployeeSchema = new mongoose.Schema(
         officeName: {
             type: String,
         },
+        subdivisionName: {
+            type: String,
+            required: true,
+            default: 'tirumangalam'
+        },
         createdAt: {
             type: Date,
             default: Date.now

@@ -12,10 +12,11 @@ const formatDate = (dateString) => {
     return new Date(year, month - 1, day);  // Month is zero-based in JavaScript Date constructor, so subtract 1 from the month
 }
 
-const findNumberOfDaysBetweenDates = (fromDate, toDate) => {
-    const differenceInMs = toDate - fromDate;  
+const findNumberOfDays = (fromDate, toDate) => {
+    const differenceInMs = toDate - fromDate;
     const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);    // Convert milliseconds to days
-    return Math.round(differenceInDays);
+    const days = Math.round(differenceInDays) + 1
+    return days
 }
 
-module.exports = { textCapitalize, formatDate, findNumberOfDaysBetweenDates }
+module.exports = { textCapitalize, formatDate, findNumberOfDays }

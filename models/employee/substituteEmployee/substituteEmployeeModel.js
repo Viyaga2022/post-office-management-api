@@ -9,6 +9,11 @@ const substituteEmployeeSchema = new mongoose.Schema(
         accountNo: {
             type: String,
         },
+        subdivisionName: {
+            type: String,
+            required: true,
+            default: 'tirumangalam'
+        },
         workStartDate: {
             type: Date,
         },

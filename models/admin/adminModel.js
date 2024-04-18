@@ -18,6 +18,7 @@ const adminSchema = new mongoose.Schema(
         subdivisionName: {
             type: String,
             required: true,
+            default: 'tirumangalam',
         }
     },
     {

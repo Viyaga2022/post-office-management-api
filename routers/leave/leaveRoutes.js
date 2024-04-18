@@ -1,17 +1,17 @@
 const express = require('express');
-const { uploadLeaveToDB, createLeave, getLeaves, getLeave, updateLeave, deleteLeave } = require('../../controllers/leave/leaveController');
+const { uploadLeaveToDB, createLeave, updateLeave, deleteLeave, getLeavesByType, getPendingLeaves } = require('../../controllers/leave/leaveController');
 const router = express()
 
 router.post('/', createLeave);
 
 router.get('/upload/:fileName', uploadLeaveToDB);
 
-router.get('/:leaveType', getLeaves);
+router.get('/pending', getPendingLeaves)
 
-router.get('/:id', getLeave);
+router.put('/pending/:id', updateLeave);
 
-router.put('/:id', updateLeave);
+router.delete('/pending/:id', deleteLeave);
 
-router.delete('/:id', deleteLeave);
+router.get('/:leaveType', getLeavesByType);
 
 module.exports = router

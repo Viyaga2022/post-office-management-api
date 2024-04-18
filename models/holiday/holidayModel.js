@@ -9,7 +9,12 @@ const holidaySchema = new mongoose.Schema(
         date: {
             type: Date,
             required: true,
-        }
+        },
+        subdivisionName: {
+            type: String,
+            required: true,
+            default: 'tirumangalam'
+        },
     },
 )
 
