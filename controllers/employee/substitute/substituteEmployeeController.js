@@ -32,7 +32,6 @@ const createSubstituteEmployee = ash(async (req, res) => {
         accountNo: z.string().min(1).max(20),
     }).safeParse(req.body)
 
-    console.log({err:parsedData.error})
     if (parsedData.success) {
         const employee = await SubstituteEmployee.create({ name, accountNo });
         res.status(201).json({ message: "Employee Created Successfully", employee });
