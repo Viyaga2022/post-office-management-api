@@ -33,6 +33,9 @@ const createSubstituteEmployee = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (parsedData.success) {
+        const isExisting = await SubstituteEmployee.findOne({ accountNo })
+        if (isExisting) return res.status(401).json({ message: "Account No Already Existing" })
+
         const employee = await SubstituteEmployee.create({ name, accountNo });
         res.status(201).json({ message: "Employee Created Successfully", employee });
     }

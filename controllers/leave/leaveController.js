@@ -3,10 +3,12 @@ const fs = require('fs')
 const csv = require('csv-parser')
 const z = require('zod')
 const Leave = require('../../models/leave/leaveModel');
-const { formatDate } = require('../../service');
+const Office = require('../../models/office/OfficeModel')
+const { formatDate, getMonthAndYear } = require('../../service');
 
 const uploadLeaveToDB = ash(async (req, res) => {
     const { fileName } = req.params
+    const offices = await Office.find()
     const results = []
     fs.createReadStream(`files/${fileName}`)
         .pipe(csv())
@@ -15,9 +17,11 @@ const uploadLeaveToDB = ash(async (req, res) => {
                 const selectedData = {
                     name: data.name ? data.name.trim().toLowerCase() : "NO DATA",
                     designation: data.designation.trim().toLowerCase(),
-                    officeName: data.officeName.trim().toLowerCase(),
+                    officeId: offices.filter((item) => item.officeName === data.officeName.trim().toLowerCase().replace(" bo", ""))[0]?._id,
+                    officeName: data.officeName.trim().toLowerCase().replace(" bo", ""),
                     from: formatDate(data.from),
                     to: formatDate(data.to),
+                    leaveMonth: getMonthAndYear(formatDate(data.from)),
                     days: data.days ? parseInt(data.days) : undefined,
                     substituteName: data.substituteName.trim().toLowerCase(),
                     accountNo: data.accountNo ? data.accountNo.trim() : undefined,

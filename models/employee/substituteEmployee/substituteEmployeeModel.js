@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { union } = require('zod')
 
 const substituteEmployeeSchema = new mongoose.Schema(
     {
@@ -8,6 +9,8 @@ const substituteEmployeeSchema = new mongoose.Schema(
         },
         accountNo: {
             type: String,
+            required: true,
+            unique: true,
         },
         subdivisionName: {
             type: String,

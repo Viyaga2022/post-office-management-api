@@ -11,14 +11,18 @@ const leaveSchema = new mongoose.Schema(
             required: true,
             enum: ['bpm', 'abpm', 'dak sevak', 'abpm i', 'abpm ii']
         },
+        officeId: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: "Office",
+            required: true,
+        },
         officeName: {
             type: String,
             required: true,
         },
-        subdivisionName: {
-            type: String,
+        leaveMonth: {
+            type: String, //jan2024
             required: true,
-            default: 'tirumangalam'
         },
         from: {
             type: Date,
@@ -33,10 +37,6 @@ const leaveSchema = new mongoose.Schema(
             required: true,
             min: 1,
         },
-        // substituteId: {
-        //     type: mongoose.SchemaTypes.ObjectId,
-        //     required: true,
-        // },
         substituteName: {
             type: String,
             required: true,
@@ -61,7 +61,12 @@ const leaveSchema = new mongoose.Schema(
         createdAt: {
             type: Date,
             default: Date.now
-        }
+        },
+        subdivisionName: {
+            type: String,
+            required: true,
+            default: 'tirumangalam'
+        },
     },
 )
 

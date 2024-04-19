@@ -42,7 +42,7 @@ const createRegularEmployee = ash(async (req, res) => {
 });
 
 const getAllOffices = ash(async (req, res) => {
-    const offices = await Employee.distinct('officeName', { employeeType: 'regular' });
+    const offices = await Employee.distinct('officeName');
     res.status(200).json({ offices, total: offices.length });
 });
 
