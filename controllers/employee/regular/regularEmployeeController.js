@@ -12,7 +12,7 @@ const uploadRegularEmployeesToDB = ash(async (req, res) => {
         .pipe(csv())
         .on('data', (data) => {
             const selectedData = {
-                name: data.name ? data.name.trim().toLowerCase() : "NO DATA",
+                name: data.name ? data.name.trim().toLowerCase() : "VACANT",
                 designation: data.officeName ? data.designation.trim().toLowerCase() : undefined,
                 officeName: data.officeName ? data.officeName.trim().toLowerCase() : undefined,
             };
@@ -52,6 +52,14 @@ const getAllRegularEmployees = ash(async (req, res) => {
 });
 
 const getRegularEmployeeById = ash(async (req, res) => {
+    const employee = await RegularEmployee.findById(req.params.id);
+    if (!employee) {
+        return res.status(404).json({ message: 'Employee not found' });
+    }
+    res.status(200).json({ employee });
+});
+
+const getRegularEmployeeNameBy = ash(async (req, res) => {
     const employee = await RegularEmployee.findById(req.params.id);
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
