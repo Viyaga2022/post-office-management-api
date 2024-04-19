@@ -22,32 +22,36 @@ const leaveSchema = new mongoose.Schema(
         },
         from: {
             type: Date,
-            //required: true,
+            required: true,
         },
         to: {
             type: Date,
-            //required: true,
+            required: true,
         },
         days: {
             type: Number,
-            //required: true,
-            //min: 1,
+            required: true,
+            min: 1,
         },
+        // substituteId: {
+        //     type: mongoose.SchemaTypes.ObjectId,
+        //     required: true,
+        // },
         substituteName: {
             type: String,
-            //required: true,
+            required: true,
         },
         accountNo: {
             type: String,
-            //required: true,
+            required: true,
         },
         remarks: {
             type: String,
-            //required: true,
+            required: true,
         },
         leaveType: {
             type: String,
-            //required: true,
+            required: true,
         },
         status: {
             type: Number,

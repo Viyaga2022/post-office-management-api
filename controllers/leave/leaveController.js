@@ -74,24 +74,49 @@ const getLeavesByType = ash(async (req, res) => {
 });
 
 const updateLeave = ash(async (req, res) => {
-    const leave = await Leave.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true
-    });
-    if (!leave) {
-        return res.status(404).json({ success: false, error: 'Leave not found' });
+    const { name, designation, officeName, from, to, days,
+        substituteName, accountNo, remarks, leaveType, status } = req.body
+
+    const id = req.params.id
+
+    const parsedData = z.object({
+        name: z.string().min(1).max(50),
+        designation: z.string().min(1).max(10),
+        officeName: z.string().min(1).max(50),
+        from: z.string().min(1).max(40),
+        to: z.string().min(1).max(40),
+        substituteName: z.string().min(1).max(50),
+        accountNo: z.string().min(1).max(20),
+        remarks: z.string().min(1).max(100),
+        leaveType: z.string().min(1).max(100),
+        status: z.number().min(0).max(1),
+    }).safeParse(req.body)
+
+    if (!parsedData?.success) return res.status(401).json({ message: "Invalid Data" })
+
+    const leaveData = {
+        name, designation, officeName, from, to, days,
+        substituteName, accountNo, remarks, leaveType, status
     }
-    res.status(200).json({ success: true, data: leave });
+
+    const leave = await Leave.findOneAndUpdate({ _id: id, status: 0 }, leaveData, { new: true, runValidators: true });
+
+    if (!leave) {
+        return res.status(404).json({ message: 'Leave not found or Already Approved' });
+    }
+
+    res.status(200).json({ message: "Data Updated Successfully", leave });
 });
 
 const deleteLeave = ash(async (req, res) => {
-    const leave = await Leave.findByIdAndDelete(req.params.id);
+    const id = req.params.id
+    const leave = await Leave.findOneAndDelete({ _id: id, status: 0 });
 
     if (!leave) {
-        return res.status(404).json({ message: 'Leave already approved or not found' });
+        return res.status(404).json({ message: 'Leave not found or Already Approved' });
     }
 
-    res.status(200).json({ leaveId: req.params.id });
+    res.status(200).json({ message: "Data Deleted Successfully" });
 });
 
 module.exports = { uploadLeaveToDB, createLeave, getPendingLeaves, getLeavesByType, updateLeave, deleteLeave }
