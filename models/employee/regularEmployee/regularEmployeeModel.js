@@ -8,9 +8,16 @@ const regularEmployeeSchema = new mongoose.Schema(
         },
         designation: {
             type: String,
+            required: true,
+        },
+        officeId: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: "Office",
+            required: true,
         },
         officeName: {
             type: String,
+            required: true,
         },
         subdivisionName: {
             type: String,

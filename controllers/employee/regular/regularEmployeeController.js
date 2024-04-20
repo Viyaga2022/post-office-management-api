@@ -1,5 +1,6 @@
 const ash = require('express-async-handler')
 const RegularEmployee = require('../../../models/employee/regularEmployee/regularEmployeeModel');
+const Office = require('../../../models/office/OfficeModel')
 const fs = require('fs')
 const csv = require('csv-parser');
 const { z } = require('zod');
@@ -7,13 +8,14 @@ const { z } = require('zod');
 const uploadRegularEmployeesToDB = ash(async (req, res) => {
     const { fileName } = req.params
     const results = [];
-
+    const offices = await Office.find()
     fs.createReadStream(`./files/${fileName}`) //./files/employee-details.csv
         .pipe(csv())
         .on('data', (data) => {
             const selectedData = {
                 name: data.name ? data.name.trim().toLowerCase() : "VACANT",
                 designation: data.officeName ? data.designation.trim().toLowerCase() : undefined,
+                officeId: offices.filter((item) => item.officeName === data.officeName.trim().toLowerCase().replace(" bo", ""))[0]?._id,
                 officeName: data.officeName ? data.officeName.trim().toLowerCase() : undefined,
             };
             results.push(selectedData);
