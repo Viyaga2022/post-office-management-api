@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express()
 
-const { createRegularEmployee, uploadRegularEmployeesToDB, getAllRegularEmployees, getRegularEmployeeById, updateRegularEmployee, deleteRegularEmployee, getAllOffices } = require('../../../controllers/employee/regular/regularEmployeeController');
+const { createRegularEmployee, uploadRegularEmployeesToDB, getAllRegularEmployees, getRegularEmployeeById, updateRegularEmployee, deleteRegularEmployee, getAllOffices, getEmployeeNameByOfficeIdAndDesignation } = require('../../../controllers/employee/regular/regularEmployeeController');
 const { protect } = require('../../../middlewares/auth/authMiddleware');
 
 router.post('/', createRegularEmployee);
@@ -9,6 +9,8 @@ router.post('/', createRegularEmployee);
 router.get('/upload/:fileName', uploadRegularEmployeesToDB);
 
 router.get('/offices', getAllOffices)
+
+router.get('/name/:officeId/:designation', getEmployeeNameByOfficeIdAndDesignation)
 
 router.get('/', getAllRegularEmployees);
 

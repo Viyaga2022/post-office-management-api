@@ -11,7 +11,8 @@ const uploadOffices = ash(async (req, res) => {
 });
 
 const getAllOffices = ash(async (req, res) => {
-    const offices = await Office.find()
+    const offices = await Office.find().select('officeName')
+    offices.sort((a, b) => a.officeName.localeCompare(b.officeName))
     res.status(201).json({ offices })
 });
 

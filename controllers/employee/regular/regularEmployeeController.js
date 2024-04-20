@@ -59,12 +59,13 @@ const getRegularEmployeeById = ash(async (req, res) => {
     res.status(200).json({ employee });
 });
 
-const getRegularEmployeeNameBy = ash(async (req, res) => {
-    const employee = await RegularEmployee.findById(req.params.id);
-    if (!employee) {
+const getEmployeeNameByOfficeIdAndDesignation = ash(async (req, res) => {
+    const { officeId, designation } = req.params
+    const employeeData = await RegularEmployee.findOne({ officeId, designation }).select('name');
+    if (!employeeData) {
         return res.status(404).json({ message: 'Employee not found' });
     }
-    res.status(200).json({ employee });
+    res.status(200).json({ employeeName: employeeData.name });
 });
 
 const updateRegularEmployee = ash(async (req, res) => {
@@ -94,8 +95,8 @@ const deleteRegularEmployee = ash(async (req, res) => {
 });
 
 module.exports = {
-    uploadRegularEmployeesToDB, createRegularEmployee, getAllOffices,
-    getAllRegularEmployees, getRegularEmployeeById, updateRegularEmployee, deleteRegularEmployee
+    uploadRegularEmployeesToDB, createRegularEmployee, getAllOffices, getAllRegularEmployees,
+    getRegularEmployeeById, getEmployeeNameByOfficeIdAndDesignation, updateRegularEmployee, deleteRegularEmployee
 }
 
 
