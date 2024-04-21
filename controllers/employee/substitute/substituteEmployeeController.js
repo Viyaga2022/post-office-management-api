@@ -1,9 +1,10 @@
 const ash = require('express-async-handler')
 const SubstituteEmployee = require('../../../models/employee/substituteEmployee/substituteEmployeeModel');
+const Office = require('../../../models/office/OfficeModel')
+const Holiday = require('../../../models/holiday/holidayModel');
 const fs = require('fs')
 const csv = require('csv-parser');
 const { z } = require('zod');
-const { log } = require('console');
 
 const uploadSubstituteEmployeesToDB = ash(async (req, res) => {
     const { fileName } = req.params
@@ -50,6 +51,18 @@ const getAllSubstituteEmployees = ash(async (req, res) => {
     const employees = await SubstituteEmployee.find();
     res.status(201).json({ employees });
 });
+
+const getSubstitutesOfficesAndHolidays = ash(async (req, res) => {
+    const substitutes = await SubstituteEmployee.find().select(['name', 'accountNo', '-_id']);
+    substitutes.sort((a, b) => a.name.localeCompare(b.name))
+
+    const offices = await Office.find().select('officeName')
+    offices.sort((a, b) => a.officeName.localeCompare(b.officeName))
+
+    const holidays = await Holiday.find().select(['holiday', 'date', '-_id']);
+
+    res.status(201).json({ substitutes, offices, holidays });
+})
 
 const getNonWorkingSubstitute = ash(async (req, res) => {
     const { fromDate, toDate } = req.params
@@ -105,7 +118,7 @@ const deleteSubstituteEmployee = ash(async (req, res) => {
 });
 
 module.exports = {
-    uploadSubstituteEmployeesToDB, createSubstituteEmployee, getAllSubstituteEmployees,
+    uploadSubstituteEmployeesToDB, createSubstituteEmployee, getAllSubstituteEmployees, getSubstitutesOfficesAndHolidays,
     getNonWorkingSubstitute, getSubstituteEmployeeById, updateSubstituteEmployee, deleteSubstituteEmployee
 }
 
