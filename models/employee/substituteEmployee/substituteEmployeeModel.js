@@ -19,9 +19,15 @@ const substituteEmployeeSchema = new mongoose.Schema(
         },
         workStartDate: {
             type: Date,
+            default: new Date(0),
         },
         workEndDate: {
             type: Date,
+            default: new Date(0),
+        },
+        workingDays: {
+            type: Number,
+            dafault: 0,
         },
         createdAt: {
             type: Date,

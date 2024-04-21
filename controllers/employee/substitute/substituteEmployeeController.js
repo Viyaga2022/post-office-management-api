@@ -46,8 +46,28 @@ const createSubstituteEmployee = ash(async (req, res) => {
 
 const getAllSubstituteEmployees = ash(async (req, res) => {
     const employees = await SubstituteEmployee.find();
-    res.json({ employees });
+    res.status(201).json({ employees });
 });
+
+const getNonWorkingSubstitute = ash(async (req, res) => {
+    const { fromDate, toDate } = req.params
+    const employees = await SubstituteEmployee.find({
+        $and: [
+            {
+                $or: [
+                    { workStartDate: { $lt: fromDate } },
+                    { workEndDate: { $gt: fromDate } }
+                ]
+            }, {
+                $or: [
+                    { workStartDate: { $lt: toDate } },
+                    { workEndtDate: { $gt: toDate } }
+                ]
+            }]
+    }).select(['name', 'accountNo'])
+
+    res.status(201).json({ employees });
+})
 
 const getSubstituteEmployeeById = ash(async (req, res) => {
     const employee = await SubstituteEmployee.findById(req.params.id);
@@ -84,7 +104,7 @@ const deleteSubstituteEmployee = ash(async (req, res) => {
 
 module.exports = {
     uploadSubstituteEmployeesToDB, createSubstituteEmployee, getAllSubstituteEmployees,
-    getSubstituteEmployeeById, updateSubstituteEmployee, deleteSubstituteEmployee
+    getNonWorkingSubstitute, getSubstituteEmployeeById, updateSubstituteEmployee, deleteSubstituteEmployee
 }
 
 
