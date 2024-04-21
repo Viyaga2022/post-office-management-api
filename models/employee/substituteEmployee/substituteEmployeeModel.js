@@ -14,7 +14,6 @@ const substituteEmployeeSchema = new mongoose.Schema(
         },
         subdivisionName: {
             type: String,
-            required: true,
             default: 'tirumangalam'
         },
         workStartDate: {

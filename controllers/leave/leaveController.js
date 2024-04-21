@@ -39,15 +39,18 @@ const uploadLeaveToDB = ash(async (req, res) => {
 })
 
 const createLeave = ash(async (req, res) => {
-    const { name, designation, officeName, from, to, days,
+    const { name, designation, officeId, officeName, leaveMonth, from, to, days,
         substituteName, accountNo, remarks, leaveType, status } = req.body
 
     const parsedData = z.object({
         name: z.string().min(1).max(50),
         designation: z.string().min(1).max(10),
+        officeId: z.string().min(1).max(30),
         officeName: z.string().min(1).max(50),
+        leaveMonth: z.string().min(1).max(9),
         from: z.string().min(1).max(40),
         to: z.string().min(1).max(40),
+        days: z.number().min(1).max(33),
         substituteName: z.string().min(1).max(50),
         accountNo: z.string().min(1).max(20),
         remarks: z.string().min(1).max(100),
@@ -58,7 +61,7 @@ const createLeave = ash(async (req, res) => {
     if (!parsedData?.success) return res.status(401).json({ message: "Invalid Data" })
 
     const leaveData = {
-        name, designation, officeName, from, to, days,
+        name, designation, officeId, officeName, leaveMonth, from, to, days,
         substituteName, accountNo, remarks, leaveType, status
     }
 
@@ -78,7 +81,7 @@ const getLeavesByType = ash(async (req, res) => {
 });
 
 const updateLeave = ash(async (req, res) => {
-    const { name, designation, officeName, from, to, days,
+    const { name, designation, officeId, officeName, leaveMonth, from, to, days,
         substituteName, accountNo, remarks, leaveType, status } = req.body
 
     const id = req.params.id
@@ -86,9 +89,12 @@ const updateLeave = ash(async (req, res) => {
     const parsedData = z.object({
         name: z.string().min(1).max(50),
         designation: z.string().min(1).max(10),
+        officeId: z.string().min(1).max(30),
         officeName: z.string().min(1).max(50),
+        leaveMonth: z.string().min(1).max(9),
         from: z.string().min(1).max(40),
         to: z.string().min(1).max(40),
+        days: z.number().min(1).max(33),
         substituteName: z.string().min(1).max(50),
         accountNo: z.string().min(1).max(20),
         remarks: z.string().min(1).max(100),
@@ -99,7 +105,7 @@ const updateLeave = ash(async (req, res) => {
     if (!parsedData?.success) return res.status(401).json({ message: "Invalid Data" })
 
     const leaveData = {
-        name, designation, officeName, from, to, days,
+        name, designation, officeId, officeName, leaveMonth, from, to, days,
         substituteName, accountNo, remarks, leaveType, status
     }
 

@@ -8,15 +8,17 @@ const { log } = require('console');
 const uploadSubstituteEmployeesToDB = ash(async (req, res) => {
     const { fileName } = req.params
     const results = [];
-    c
+
     fs.createReadStream(`./files/${fileName}`) //./files/employee-details.csv
         .pipe(csv())
         .on('data', (data) => {
-            const selectedData = {
-                name: data.name ? data.name.trim().toLowerCase() : "NO DATA",
-                accountNo: data.officeName ? undefined : data.accountNo.trim().toLowerCase(),
-            };
-            results.push(selectedData);
+            if (data.accountNo) {
+                const selectedData = {
+                    name: data.name ? data.name.trim().toLowerCase() : "NO DATA",
+                    accountNo: data.accountNo.trim().toLowerCase(),
+                };
+                results.push(selectedData);
+            }
         })
         .on('end', async () => {
             await SubstituteEmployee.insertMany(results);
