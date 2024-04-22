@@ -4,7 +4,7 @@ const csv = require('csv-parser')
 const z = require('zod')
 const Leave = require('../../models/leave/leaveModel');
 const Office = require('../../models/office/OfficeModel')
-const { formatDate, getMonthAndYear } = require('../../service');
+const { formatDate, getMonthAndYear, textCapitalize } = require('../../service');
 
 // common =================================================================
 const uploadLeaveToDB = ash(async (req, res) => {
@@ -39,7 +39,7 @@ const uploadLeaveToDB = ash(async (req, res) => {
         })
 })
 
-const getSubstituteNameByLeaveData = async (fromDate, toDate, designation, officeId, leaveMonth) => {
+const validateOffice = async (fromDate, toDate, designation, officeId, leaveMonth) => {
     const data = await Leave.findOne({
         leaveMonth,
         officeId,
@@ -51,6 +51,20 @@ const getSubstituteNameByLeaveData = async (fromDate, toDate, designation, offic
             { $and: [{ from: { $gte: fromDate } }, { to: { $lte: toDate } }] }   // leave period falls within fromDate and toDate
         ]
     }).select('substituteName')
+    return data
+}
+
+const validateSubstitute = async (fromDate, toDate, accountNo, leaveMonth) => {
+    const data = await Leave.findOne({
+        leaveMonth,
+        accountNo,
+        status: 1,
+        $or: [
+            { $and: [{ from: { $lte: fromDate } }, { to: { $gte: fromDate } }] }, // fromDate falls within leave period
+            { $and: [{ from: { $lte: toDate } }, { to: { $gte: toDate } }] },     // toDate falls within leave period
+            { $and: [{ from: { $gte: fromDate } }, { to: { $lte: toDate } }] }   // leave period falls within fromDate and toDate
+        ]
+    }).select('officeName')
     return data
 }
 
@@ -77,9 +91,15 @@ const createLeave = ash(async (req, res) => {
 
     if (!parsedData?.success) return res.status(401).json({ message: "Invalid Data" })
 
-    const isSubstitute = await getSubstituteNameByLeaveData(from, to, designation, officeId, leaveMonth)
+    const isSubstitute = await validateOffice(from, to, designation, officeId, leaveMonth)
     if (isSubstitute) {
-        const message = `${isSubstitute.substituteName} is Already scheduled to work at ${officeName} as a ${designation} on this date.`.toUpperCase()
+        const message = textCapitalize(`${isSubstitute.substituteName} is Already scheduled to work as a ${designation} in this office.`)
+        return res.status(401).json({ message })
+    }
+    
+    const isOfficeName = await validateSubstitute(from, to, accountNo, leaveMonth)
+    if (isOfficeName) {
+        const message = textCapitalize(`This substitute is already scheduled to work at ${isOfficeName.officeName} on this date.`)
         return res.status(401).json({ message })
     }
 
@@ -127,9 +147,16 @@ const updateLeave = ash(async (req, res) => {
 
     if (!parsedData?.success) return res.status(401).json({ message: "Invalid Data" })
 
-    const isSubstitute = await getSubstituteNameByLeaveData(from, to, designation, officeId, leaveMonth)
+    const isSubstitute = await validateOffice(from, to, designation, officeId, leaveMonth)
     if (isSubstitute) {
-        return res.status(401).json({ message: `${isSubstitute.substituteName} is already scheduled to work at ${officeName} as a ${designation} on this date.` })
+        const message = textCapitalize(`${isSubstitute.substituteName} is Already scheduled to work as a ${designation} in this office.`)
+        return res.status(401).json({ message })
+    }
+
+    const isOfficeName = await validateSubstitute(from, to, accountNo, leaveMonth)
+    if (isOfficeName) {
+        const message = textCapitalize(`This substitute is already scheduled to work at ${isOfficeName.officeName} on this date.`)
+        return res.status(401).json({ message })
     }
 
     const leaveData = {
