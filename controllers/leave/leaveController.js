@@ -40,9 +40,17 @@ const uploadLeaveToDB = ash(async (req, res) => {
 })
 
 const getSubstituteNameByLeaveData = async (fromDate, toDate, designation, officeId, leaveMonth) => {
-    console.log({ fromDate, toDate, designation, officeId, leaveMonth });
-    const data = await Leave.findOne({ leaveMonth, officeId, designation, statue: 1, $or: [{ $and: [{ from: { $gte: fromDate } }, { to: { $lte: fromDate } }] }, { $and: [{ from: { $gte: toDate } }, { to: { $lte: toDate } }] }] }).select('substituteName')
-    console.log({ data });
+    const data = await Leave.findOne({
+        leaveMonth,
+        officeId,
+        designation,
+        status: 1,
+        $or: [
+            { $and: [{ from: { $lte: fromDate } }, { to: { $gte: fromDate } }] }, // fromDate falls within leave period
+            { $and: [{ from: { $lte: toDate } }, { to: { $gte: toDate } }] },     // toDate falls within leave period
+            { $and: [{ from: { $gte: fromDate } }, { to: { $lte: toDate } }] }   // leave period falls within fromDate and toDate
+        ]
+    }).select('substituteName')
     return data
 }
 
@@ -71,8 +79,8 @@ const createLeave = ash(async (req, res) => {
 
     const isSubstitute = await getSubstituteNameByLeaveData(from, to, designation, officeId, leaveMonth)
     if (isSubstitute) {
-        console.log({ isSubstitute });
-        return res.status(401).json({ message: `${isSubstitute.substituteName} is already scheduled to work at ${officeName} as a ${designation} on this date.` })
+        const message = `${isSubstitute.substituteName} is Already scheduled to work at ${officeName} as a ${designation} on this date.`.toUpperCase()
+        return res.status(401).json({ message })
     }
 
     const leaveData = {
@@ -121,7 +129,6 @@ const updateLeave = ash(async (req, res) => {
 
     const isSubstitute = await getSubstituteNameByLeaveData(from, to, designation, officeId, leaveMonth)
     if (isSubstitute) {
-        console.log({ isSubstitute });
         return res.status(401).json({ message: `${isSubstitute.substituteName} is already scheduled to work at ${officeName} as a ${designation} on this date.` })
     }
 

@@ -8,8 +8,10 @@ const textCapitalize = (text) => {
 const formatDate = (dateString) => {
     if (!dateString) return undefined;
     let date = dateString.split('-').join('/')
-    const [month, day, year] = date.split('/').map(Number); //if the date string is in the format 'mm-dd-yyyy' or 'm-d-yyyy'
-    return new Date(year, month - 1, day);  // Month is zero-based in JavaScript Date constructor, so subtract 1 from the month
+    const [month, day, year] = date.split('/').map(Number);
+    const inputDate = new Date(year, month-1, day)
+    inputDate.setUTCHours(0, 0, 0, 0); 
+    return inputDate 
 }
 
 const getMonthAndYear = (date) => {
