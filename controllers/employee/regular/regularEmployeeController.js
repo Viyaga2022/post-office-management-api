@@ -27,7 +27,7 @@ const uploadRegularEmployeesToDB = ash(async (req, res) => {
 })
 
 const createRegularEmployee = ash(async (req, res) => {
-    const { name, designation, officeName } = req.body
+    const { name, designation, officeId, officeName } = req.body
 
     const parsedData = z.object({
         name: z.string().min(1).max(50),
@@ -36,7 +36,7 @@ const createRegularEmployee = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (parsedData?.success) {
-        const employee = await RegularEmployee.create({ name, designation, officeName });
+        const employee = await RegularEmployee.create({ name, designation, officeId, officeName });
         return res.status(201).json({ message: "Employee Created Successfully", employee });
     }
 
@@ -45,7 +45,7 @@ const createRegularEmployee = ash(async (req, res) => {
 
 const getAllOffices = ash(async (req, res) => {
     const offices = await Employee.distinct('officeName');
-    res.status(200).json({ offices, total: offices.length });
+    res.status(200).json({ offices });
 });
 
 const getAllRegularEmployees = ash(async (req, res) => {
@@ -71,17 +71,18 @@ const getEmployeeNameByOfficeIdAndDesignation = ash(async (req, res) => {
 });
 
 const updateRegularEmployee = ash(async (req, res) => {
-    const { name, designation, officeName } = req.body
+    const { name, designation, officeId, officeName } = req.body
     const id = req.params.id
 
     const parsedData = z.object({
         name: z.string().min(1).max(50),
         designation: z.string().min(1).max(10),
+        officeId: z.string().min(1).max(30),
         officeName: z.string().min(1).max(50),
     }).safeParse(req.body)
 
     if (parsedData?.success) {
-        const employee = await RegularEmployee.findByIdAndUpdate(id, { name, designation, officeName }, { new: true });
+        const employee = await RegularEmployee.findByIdAndUpdate(id, { name, designation, officeId, officeName }, { new: true });
         return res.status(201).json({ message: "Employee Updated Successfully", employee });
     }
 

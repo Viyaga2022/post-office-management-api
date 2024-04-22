@@ -6,6 +6,7 @@ const Leave = require('../../models/leave/leaveModel');
 const Office = require('../../models/office/OfficeModel')
 const { formatDate, getMonthAndYear } = require('../../service');
 
+// common =================================================================
 const uploadLeaveToDB = ash(async (req, res) => {
     const { fileName } = req.params
     const offices = await Office.find()
@@ -38,6 +39,14 @@ const uploadLeaveToDB = ash(async (req, res) => {
         })
 })
 
+const getSubstituteNameByLeaveData = async (fromDate, toDate, designation, officeId, leaveMonth) => {
+    console.log({ fromDate, toDate, designation, officeId, leaveMonth });
+    const data = await Leave.findOne({ leaveMonth, officeId, designation, statue: 1, $or: [{ $and: [{ from: { $gte: fromDate } }, { to: { $lte: fromDate } }] }, { $and: [{ from: { $gte: toDate } }, { to: { $lte: toDate } }] }] }).select('substituteName')
+    console.log({ data });
+    return data
+}
+
+// crud =============================================================================
 const createLeave = ash(async (req, res) => {
     const { name, designation, officeId, officeName, leaveMonth, from, to, days,
         substituteName, accountNo, remarks, leaveType, status } = req.body
@@ -59,6 +68,12 @@ const createLeave = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (!parsedData?.success) return res.status(401).json({ message: "Invalid Data" })
+
+    const isSubstitute = await getSubstituteNameByLeaveData(from, to, designation, officeId, leaveMonth)
+    if (isSubstitute) {
+        console.log({ isSubstitute });
+        return res.status(401).json({ message: `${isSubstitute.substituteName} is already scheduled to work at ${officeName} as a ${designation} on this date.` })
+    }
 
     const leaveData = {
         name, designation, officeId, officeName, leaveMonth, from, to, days,
@@ -103,6 +118,12 @@ const updateLeave = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (!parsedData?.success) return res.status(401).json({ message: "Invalid Data" })
+
+    const isSubstitute = await getSubstituteNameByLeaveData(from, to, designation, officeId, leaveMonth)
+    if (isSubstitute) {
+        console.log({ isSubstitute });
+        return res.status(401).json({ message: `${isSubstitute.substituteName} is already scheduled to work at ${officeName} as a ${designation} on this date.` })
+    }
 
     const leaveData = {
         name, designation, officeId, officeName, leaveMonth, from, to, days,
