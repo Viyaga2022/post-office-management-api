@@ -96,7 +96,7 @@ const createLeave = ash(async (req, res) => {
         const message = textCapitalize(`${isSubstitute.substituteName} is Already scheduled to work as a ${designation} in this office.`)
         return res.status(401).json({ message })
     }
-    
+
     const isOfficeName = await validateSubstitute(from, to, accountNo, leaveMonth)
     if (isOfficeName) {
         const message = textCapitalize(`This substitute is already scheduled to work at ${isOfficeName.officeName} on this date.`)
@@ -118,8 +118,8 @@ const getPendingLeaves = ash(async (req, res) => {
 });
 
 const getLeavesByType = ash(async (req, res) => {
-    const { leaveType } = req.params
-    const leaves = await Leave.find({ leaveType, status: 1 });
+    const { leaveType, fromDate, toDate } = req.params
+    const leaves = await Leave.find({ leaveType, status: 1, from: { $gte: fromDate, $lte: toDate } }).sort({ from: 1 });
     res.status(200).json({ leaves });
 });
 
