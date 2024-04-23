@@ -15,8 +15,8 @@ const uploadSubstituteEmployeesToDB = ash(async (req, res) => {
         .on('data', (data) => {
             if (data.accountNo) {
                 const selectedData = {
-                    name: data.name ? data.name.trim().toLowerCase() : "NO DATA",
-                    accountNo: data.accountNo.trim().toLowerCase(),
+                    name: data.name.trim().toLowerCase(),
+                    accountNo: data.accountNo,
                 };
                 results.push(selectedData);
             }
