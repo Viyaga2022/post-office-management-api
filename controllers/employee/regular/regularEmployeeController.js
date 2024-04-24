@@ -90,7 +90,6 @@ const updateRegularEmployee = ash(async (req, res) => {
 
     if (parsedData?.success) {
         const isExisting = await RegularEmployee.findOne({ designation, officeId })
-        console.log({ isExisting: isExisting._id, id });
         if ((isExisting) && (isExisting._id.toString() !== id)) {
             const message = textCapitalize(`${designation} was already existing in ${officeName}`)
             return res.status(401).json({ message })
