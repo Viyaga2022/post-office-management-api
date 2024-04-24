@@ -42,7 +42,7 @@ const createRegularEmployee = ash(async (req, res) => {
             const message = textCapitalize(`${designation} was already existing in ${officeName}`)
             return res.status(401).json({ message })
         }
-        
+
         const employee = await RegularEmployee.create({ name, designation, officeId, officeName });
         return res.status(201).json({ message: "Employee Created Successfully", employee });
     }
@@ -90,7 +90,8 @@ const updateRegularEmployee = ash(async (req, res) => {
 
     if (parsedData?.success) {
         const isExisting = await RegularEmployee.findOne({ designation, officeId })
-        if (isExisting) {
+        console.log({ isExisting: isExisting._id, id });
+        if ((isExisting) && (isExisting._id.toString() !== id)) {
             const message = textCapitalize(`${designation} was already existing in ${officeName}`)
             return res.status(401).json({ message })
         }
