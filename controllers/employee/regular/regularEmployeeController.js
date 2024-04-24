@@ -4,6 +4,7 @@ const Office = require('../../../models/office/OfficeModel')
 const fs = require('fs')
 const csv = require('csv-parser');
 const { z } = require('zod');
+const { textCapitalize } = require('../../../service');
 
 const uploadRegularEmployeesToDB = ash(async (req, res) => {
     const { fileName } = req.params
@@ -31,11 +32,17 @@ const createRegularEmployee = ash(async (req, res) => {
 
     const parsedData = z.object({
         name: z.string().min(1).max(50),
-        designation: z.string().min(1).max(10),
+        designation: z.string().min(1).max(20),
         officeName: z.string().min(1).max(50),
     }).safeParse(req.body)
 
     if (parsedData?.success) {
+        const isExisting = await RegularEmployee.findOne({ designation, officeId })
+        if (isExisting) {
+            const message = textCapitalize(`${designation} was already existing in ${officeName}`)
+            return res.status(401).json({ message })
+        }
+        
         const employee = await RegularEmployee.create({ name, designation, officeId, officeName });
         return res.status(201).json({ message: "Employee Created Successfully", employee });
     }
@@ -76,12 +83,18 @@ const updateRegularEmployee = ash(async (req, res) => {
 
     const parsedData = z.object({
         name: z.string().min(1).max(50),
-        designation: z.string().min(1).max(10),
+        designation: z.string().min(1).max(20),
         officeId: z.string().min(1).max(30),
         officeName: z.string().min(1).max(50),
     }).safeParse(req.body)
 
     if (parsedData?.success) {
+        const isExisting = await RegularEmployee.findOne({ designation, officeId })
+        if (isExisting) {
+            const message = textCapitalize(`${designation} was already existing in ${officeName}`)
+            return res.status(401).json({ message })
+        }
+
         const employee = await RegularEmployee.findByIdAndUpdate(id, { name, designation, officeId, officeName }, { new: true });
         return res.status(201).json({ message: "Employee Updated Successfully", employee });
     }
