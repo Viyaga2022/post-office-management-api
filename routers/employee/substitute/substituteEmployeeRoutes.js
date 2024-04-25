@@ -3,7 +3,7 @@ const router = express()
 
 const { createSubstituteEmployee, uploadSubstituteEmployeesToDB, getAllSubstituteEmployees,
     getSubstituteEmployeeById, updateSubstituteEmployee, deleteSubstituteEmployee, getNonWorkingSubstitute,
-    getSubstitutesOfficesAndHolidays } = require('../../../controllers/employee/substitute/substituteEmployeeController');
+    getSubstitutesRegularEmployeeAndHolidays} = require('../../../controllers/employee/substitute/substituteEmployeeController');
     
 const { protect } = require('../../../middlewares/auth/authMiddleware');
 
@@ -13,7 +13,7 @@ router.get('/upload/:fileName', uploadSubstituteEmployeesToDB);
 
 router.get('/non-working/:fromDate/:toDate', getNonWorkingSubstitute);
 
-router.get('/substitutes-offices-holidays', getSubstitutesOfficesAndHolidays)
+router.get('/substitutes-employees-holidays', getSubstitutesRegularEmployeeAndHolidays)
 
 router.get('/', getAllSubstituteEmployees);
 

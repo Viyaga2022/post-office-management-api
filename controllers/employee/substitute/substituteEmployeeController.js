@@ -1,5 +1,6 @@
 const ash = require('express-async-handler')
 const SubstituteEmployee = require('../../../models/employee/substituteEmployee/substituteEmployeeModel');
+const RegularEmployees = require('../../../models/employee/regularEmployee/regularEmployeeModel')
 const Office = require('../../../models/office/OfficeModel')
 const Holiday = require('../../../models/holiday/holidayModel');
 const fs = require('fs')
@@ -52,16 +53,14 @@ const getAllSubstituteEmployees = ash(async (req, res) => {
     res.status(201).json({ employees });
 });
 
-const getSubstitutesOfficesAndHolidays = ash(async (req, res) => {
-    const substitutes = await SubstituteEmployee.find().select(['name', 'accountNo', '-_id']);
-    substitutes.sort((a, b) => a.name.localeCompare(b.name))
+const getSubstitutesRegularEmployeeAndHolidays = ash(async (req, res) => {
+    const substitutes = await SubstituteEmployee.find().select(['name', 'accountNo']).sort({ name: 1 });
 
-    const offices = await Office.find().select('officeName')
-    offices.sort((a, b) => a.officeName.localeCompare(b.officeName))
+    const employees = await RegularEmployees.find().select(['name', 'designation', 'officeId', 'officeName']).sort({ name: 1 })
 
     const holidays = await Holiday.find().select(['holiday', 'date', '-_id']);
 
-    res.status(201).json({ substitutes, offices, holidays });
+    res.status(201).json({ substitutes, employees, holidays });
 })
 
 const getNonWorkingSubstitute = ash(async (req, res) => {
@@ -118,7 +117,7 @@ const deleteSubstituteEmployee = ash(async (req, res) => {
 });
 
 module.exports = {
-    uploadSubstituteEmployeesToDB, createSubstituteEmployee, getAllSubstituteEmployees, getSubstitutesOfficesAndHolidays,
+    uploadSubstituteEmployeesToDB, createSubstituteEmployee, getAllSubstituteEmployees, getSubstitutesRegularEmployeeAndHolidays,
     getNonWorkingSubstitute, getSubstituteEmployeeById, updateSubstituteEmployee, deleteSubstituteEmployee
 }
 

@@ -6,18 +6,23 @@ const leaveSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        employeeId: {
+            type: mongoose.SchemaTypes.ObjectId,
+            required: true,
+            ref: "RegularEmployee"
+        },
         designation: {
             type: String,
             required: true,
             enum: ['bpm', 'abpm', 'dak sevak', 'abpm i', 'abpm ii']
         },
+        officeName: {
+            type: String,
+            required: true,
+        },
         officeId: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: "Office",
-            required: true,
-        },
-        officeName: {
-            type: String,
             required: true,
         },
         leaveMonth: {
@@ -36,6 +41,11 @@ const leaveSchema = new mongoose.Schema(
             type: Number,
             required: true,
             min: 1,
+        },
+        substituteId: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: "SubstituteEmployee",
+            required: true,
         },
         substituteName: {
             type: String,

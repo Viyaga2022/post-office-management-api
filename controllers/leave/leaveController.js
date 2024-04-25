@@ -4,18 +4,30 @@ const csv = require('csv-parser')
 const z = require('zod')
 const Leave = require('../../models/leave/leaveModel');
 const Office = require('../../models/office/OfficeModel')
+const RegularEmployees = require('../../models/employee/regularEmployee/regularEmployeeModel')
+const Substitutes = require('../../models/employee/substituteEmployee/substituteEmployeeModel')
 const { formatDate, getMonthAndYear, textCapitalize } = require('../../service');
 
 // common =================================================================
 const uploadLeaveToDB = ash(async (req, res) => {
     const { fileName } = req.params
     const offices = await Office.find()
+    const employees = await RegularEmployees.find()
+    const substitutes = await Substitutes.find()
+
     const results = []
     fs.createReadStream(`files/${fileName}`)
         .pipe(csv())
         .on('data', (data) => {
-            if (data?.substituteName) {
+            if (data?.substituteName && data?.accountNo) {
                 const selectedData = {
+                    employeeId: employees.filter((item) => {
+                        const offName = item.officeName === data.officeName.trim().toLowerCase().replace(" bo", "")
+                        // const name = item.name === data.name.trim().toLowerCase()
+                        // console.log({ itOff: item.officeName, daOff: data.officeName,offName, itName: item.name, daName: data.name, name});
+
+                        return offName
+                    })[0]?._id,
                     name: data.name ? data.name.trim().toLowerCase() : "NO DATA",
                     designation: data.designation.trim().toLowerCase(),
                     officeId: offices.filter((item) => item.officeName === data.officeName.trim().toLowerCase().replace(" bo", ""))[0]?._id,
@@ -24,12 +36,15 @@ const uploadLeaveToDB = ash(async (req, res) => {
                     to: formatDate(data.to),
                     leaveMonth: getMonthAndYear(formatDate(data.from)),
                     days: data.days ? parseInt(data.days) : undefined,
+                    substituteId: substitutes.filter((item) => item.accountNo === data.accountNo.trim())[0]?._id,
                     substituteName: data.substituteName.trim().toLowerCase(),
                     accountNo: data.accountNo ? data.accountNo.trim() : undefined,
                     remarks: data.remarks ? data.remarks.trim().toLowerCase() : undefined,
                     leaveType: data.leaveType ? data.leaveType.trim().toLowerCase() : undefined,
                     status: 1,
                 };
+
+                console.log({selectedData});
                 results.push(selectedData);
             }
         })
@@ -70,19 +85,21 @@ const validateSubstitute = async (fromDate, toDate, accountNo, leaveMonth) => {
 
 // crud =============================================================================
 const createLeave = ash(async (req, res) => {
-    const { name, designation, officeId, officeName, leaveMonth, from, to, days,
-        substituteName, accountNo, remarks, leaveType, status } = req.body
+    const { name, employeeId, designation, officeId, officeName, leaveMonth, from, to, days,
+        substituteName, substituteId, accountNo, remarks, leaveType, status } = req.body
 
     const parsedData = z.object({
         name: z.string().min(1).max(50),
+        employeeId: z.string().min(1).max(30),
         designation: z.string().min(1).max(10),
-        officeId: z.string().min(1).max(30),
         officeName: z.string().min(1).max(50),
+        officeId: z.string().min(1).max(30),
         leaveMonth: z.string().min(1).max(9),
         from: z.string().min(1).max(40),
         to: z.string().min(1).max(40),
         days: z.number().min(1).max(33),
         substituteName: z.string().min(1).max(50),
+        substituteId: z.string().min(1).max(30),
         accountNo: z.string().min(1).max(20),
         remarks: z.string().min(1).max(100),
         leaveType: z.string().min(1).max(100),
@@ -104,8 +121,8 @@ const createLeave = ash(async (req, res) => {
     }
 
     const leaveData = {
-        name, designation, officeId, officeName, leaveMonth, from, to, days,
-        substituteName, accountNo, remarks, leaveType, status
+        name, employeeId, designation, officeId, officeName, leaveMonth, from, to, days,
+        substituteName, substituteId, accountNo, remarks, leaveType, status
     }
 
     const leave = await Leave.create(leaveData);
@@ -124,21 +141,23 @@ const getLeavesByType = ash(async (req, res) => {
 });
 
 const updateLeave = ash(async (req, res) => {
-    const { name, designation, officeId, officeName, leaveMonth, from, to, days,
-        substituteName, accountNo, remarks, leaveType, status } = req.body
+    const { name, employeeId, designation, officeId, officeName, leaveMonth, from, to, days,
+        substituteName, substituteId, accountNo, remarks, leaveType, status} = req.body
 
     const id = req.params.id
 
     const parsedData = z.object({
         name: z.string().min(1).max(50),
+        employeeId: z.string().min(1).max(30),
         designation: z.string().min(1).max(10),
-        officeId: z.string().min(1).max(30),
         officeName: z.string().min(1).max(50),
+        officeId: z.string().min(1).max(30),
         leaveMonth: z.string().min(1).max(9),
         from: z.string().min(1).max(40),
         to: z.string().min(1).max(40),
         days: z.number().min(1).max(33),
         substituteName: z.string().min(1).max(50),
+        substituteId: z.string().min(1).max(30),
         accountNo: z.string().min(1).max(20),
         remarks: z.string().min(1).max(100),
         leaveType: z.string().min(1).max(100),
@@ -160,8 +179,8 @@ const updateLeave = ash(async (req, res) => {
     }
 
     const leaveData = {
-        name, designation, officeId, officeName, leaveMonth, from, to, days,
-        substituteName, accountNo, remarks, leaveType, status
+        name, employeeId, designation, officeId, officeName, leaveMonth, from, to, days,
+        substituteName, substituteId, accountNo, remarks, leaveType, status
     }
 
     const leave = await Leave.findOneAndUpdate({ _id: id, status: 0 }, leaveData, { new: true, runValidators: true });
