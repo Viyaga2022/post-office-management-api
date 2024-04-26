@@ -1,0 +1,216 @@
+﻿sno,name,designation,officeName,from,to,days,substituteName,accountNo,remarks,leaveType
+1,S Guruvishnu,BPM,A.Thottiapatti,22-01-2024,31-01-2024,10,S Sundari,0779927854,Personal affairs,Paid Leave
+2,U Saranya,BPM,Achampatti,24-01-2024,27-01-2024,4,R Bindhu,3988287807,Personal affairs,Paid Leave
+3,Velu,ABPM,Alampatti,08-01-2024,10-01-2024,3,M Kalidoss,010034634447,Personal affairs,Paid Leave
+4,Sundarraj,ABPM,Deivanayagapuram,08-01-2024,10-01-2024,3,T Periyasamy,3815779017,Personal affairs,Paid Leave
+5,Kumarasamy,BPM,Genjampatti,16-01-2024,16-01-2024,1,Nithya,4768686247,Personal affairs,Paid Leave
+6,M Jeganathan,BPM,K.Sennampatti,19-01-2024,19-01-2024,1,T Muneeswari,4579760358,Personal affairs,Paid Leave
+7,M Jeganathan,BPM,K.Sennampatti,25-01-2024,25-01-2024,1,K Nagarani,4778808035,Personal affairs,Paid Leave
+8,J Anusya,ABPM,Kadaneri,02-01-2024,06-01-2024,5,K Jansibala,010019409708,Medical affairs,Paid Leave
+9,J Anusya,ABPM,Kadaneri,09-01-2024,13-01-2024,5,K Jansibala,010019409708,Medical affairs,Paid Leave
+10,S Palanikumarasamy,BPM,Koovalapuram,19-01-2024,20-01-2024,2,S Prabhavathi,3868258552,Personal affairs,Paid Leave
+11,M Monika,BPM,Kuraiyur,25-01-2024,25-01-2024,1,S Prabhavathi,3868258552,Personal affairs,Paid Leave
+12,B Hepsi Jesintha Mabel,ABPM,Kuraiyur,16-01-2024,16-01-2024,1,K Ganesh Kumar,010007987611,Personal affairs,Paid Leave
+13,K Vasurajan,ABPM,Madipanur,17-01-2024,17-01-2024,1,P Chandran,6339694718,Personal affairs,Paid Leave
+14,Gunalan,BPM,Melakottai,09-01-2024,09-01-2024,1,R Bindhu,3988287807,Personal affairs,Paid Leave
+15,G Manikandan,ABPM,M Subbulapuram,27-01-2024,27-01-2024,1,P Venugopal,1893257861,Personal affairs,Paid Leave
+16,Ramkumar,BPM,Nallamaram,02-01-2024,03-01-2024,2,T Muneeswari,4579760358,Personal affairs,Paid Leave
+17,Ramkumar,BPM,Nallamaram,17-01-2024,18-01-2024,2,T Muneeswari,4579760358,Personal affairs,Paid Leave
+18,K Amutha,ABPM,Nallamaram,05-01-2024,06-01-2024,2,K Barani Vasuki,3374475566,Personal affairs,Paid Leave
+19,Jeyamalathi,BPM,Nilaiyur,24-01-2024,25-01-2024,2,R Parameswari,3092567376,Personal affairs,Paid Leave
+20,K Rajalakshmi,BPM,Odaipatti,05-01-2024,14-01-2024,10,G Kalarani,0831741578,Personal affairs,Paid Leave
+21,V Hariprabha,ABPM,P.Thottiapatti,13-01-2024,13-01-2024,1,P Thangaraju,4106220072,Personal affairs,Paid Leave
+22,V Hariprabha,ABPM,P.Thottiapatti,30-01-2024,31-01-2024,2,P Thangaraju,4106220072,Personal affairs,Paid Leave
+23,M Sekar,BPM,Periyapoolampatti,11-01-2024,11-01-2024,1,P Subbulakshmi,3463732549,Personal affairs,Paid Leave
+24,Irulappan ,ABPM,S.P.Natham,09-01-2024,09-01-2024,1,E Selvamani,0831625845,Personal affairs,Paid Leave
+25,P Pavadharaini,BPM,Sandaiyur,01-01-2024,01-01-2024,1,P Subbulakshmi,3463732549,Personal affairs,Paid Leave
+26,S Namburman,BPM,Sathangudi,01-01-2024,01-01-2024,1,G Umameena,4814002403,Personal affairs,Paid Leave
+27,S Namburman,BPM,Sathangudi,04-01-2024,04-01-2024,1,G Umameena,4814002403,Personal affairs,Paid Leave
+28,V Sabarieeswaran,BPM,Sevarakottai,08-01-2024,09-01-2024,2,B Rajkumar,4117931455,Personal affairs,Paid Leave
+29,V Sabarieeswaran,BPM,Sevarakottai,24-01-2024,25-01-2024,2,A Alagulakshmi,010002991432,Personal affairs,Paid Leave
+30,Elangovan,ABPM,Sevarakottai,20-01-2024,23-01-2024,4,R Velmurugan,010034518113,Personal affairs,Paid Leave
+31,Elangovan,ABPM,Sevarakottai,27-01-2024,27-01-2024,1,R Velmurugan,010034518113,Personal affairs,Paid Leave
+32,Kandasamy,BPM,Sidhireddipatti,27-01-2024,27-01-2024,1,S Jansirani,4115088489,Personal affairs,Paid Leave
+33,V Kowsalyadevi,BPM,Silarapatti,11-01-2024,11-01-2024,1,S Prabhavathi,3868258552,Personal affairs,Paid Leave
+34,V Kowsalyadevi,BPM,Silarapatti,23-01-2024,24-01-2024,2,S Prabhavathi,3868258552,Personal affairs,Paid Leave
+35,K Meenakshi,ABPM,Sithalai,08-01-2024,08-01-2024,1,S Kannan,4629328590,Personal affairs,Paid Leave
+36,K Meenakshi,ABPM,Sithalai,30-01-2024,30-01-2024,1,S Kannan,4629328590,Personal affairs,Paid Leave
+37,P Kanjana ,BPM,Solaipatti,16-01-2024,17-01-2024,2,R Bindhu,3988287807,Personal affairs,Paid Leave
+38,C Yamuna,ABPM,Solaipatti,16-01-2024,17-01-2024,2,S Arunpandiyan,010009879866,Personal affairs,Paid Leave
+39,R Amutha,BPM,Thanakkankulam ,16-01-2024,16-01-2024,1,M Santhoshkumar,3030608765,Personal affairs,Paid Leave
+40,R Amutha,BPM,Thanakkankulam ,25-01-2024,27-01-2024,3,S Nilafar Nisha,1209692546,Personal affairs,Paid Leave
+41,K Karunya,ABPM,Thanakkankulam ,23-01-2024,23-01-2024,1,S Nilafar Nisha,1209692546,Personal affairs,Paid Leave
+42,V Rajaram,BPM,Thangalacheri,10-01-2024,13-01-2024,4,R Bindhu,3988287807,Personal affairs,Paid Leave
+43,V Rajaram,BPM,Thangalacheri,25-01-2024,25-01-2024,1,S Sumathi,0831917454,Personal affairs,Paid Leave
+44,M A P Tharani,BPM,Vagaikulam,01-01-2024,04-01-2024,4,S Jansirani,4115088489,Personal affairs,Paid Leave
+45,V Kalaiselvan,ABPM,Velambur,01-01-2024,01-01-2024,1,K Manikandan,010016472295,Personal affairs,Paid Leave
+46,V Kalaiselvan,ABPM,Velambur,03-01-2024,11-01-2024,9,K Manikandan,010016472295,Personal affairs,Paid Leave
+47,B Poorani,Dak Sevak,Alagappan nagar SO,25-01-2024,27-01-2024,3,S Sundharamoorthi,4216994696,Personal affairs,Paid Leave
+48,R Gopi,Dak Sevak,Pasumalai SO,29-01-2024,30-01-2024,2,B Lakshmi,010022168008,Personal affairs,Paid Leave
+49,P Mariappan,Dak Sevak,T.E.College SO,18-01-2024,20-01-2024,3,R Hariram,3589311901,Personal affairs,Paid Leave
+50,P Augustina Christy,Dak Sevak,T.E.College SO,06-01-2024,06-01-2024,1,R Hariram,3589311901,Personal affairs,Paid Leave
+51,S Sathyapriya,Dak Sevak,T.Kallupatti SO,27-01-2024,27-01-2024,1,J Rajapandi,3408128574,Personal affairs,Paid Leave
+52,S Selvam,Dak Sevak,T.Kunnathur SO,01-01-2024,03-01-2024,3,R Nagaraj,4120928022,Personal affairs,Paid Leave
+53,S Selvam,Dak Sevak,T.Kunnathur SO,08-01-2024,11-01-2024,4,R Nagaraj,4120928022,Personal affairs,Paid Leave
+54,M Shobana,Dak Sevak,T.Kunnathur SO,01-01-2024,01-01-2024,1,R Vignesh,010012393953,Personal affairs,Paid Leave
+55,S Nivetha,Dak Sevak,T.Pudupatti SO,23-01-2024,31-01-2024,9,A Nagarajan,010014874277,Personal affairs,Paid Leave
+56,G Vennila,Dak Sevak,Tirumangalam SO,06-01-2024,06-01-2024,1,K Bhavani,0831579324,Personal affairs,Paid Leave
+57,Nandhini P,Dak Sevak,Tirumangalam SO,12-01-2024,12-01-2024,1,M Aarthy,010021099867,Personal affairs,Paid Leave
+58,N Krishnammal,Dak Sevak,Tirumangalam SO,12-01-2024,13-01-2024,2,K Bhavani,0831579324,Personal affairs,Paid Leave
+59,P Baskaran,Dak Sevak,TVS Nagar SO,18-01-2024,19-01-2024,2,S Nagajothi,1160736815,Personal affairs,Paid Leave
+60,L Balasubramanian,Dak Sevak,Villur SO,18-01-2024,18-01-2024,1,C Ponnusamy,3854632403,Personal affairs,Paid Leave
+1,R Alagarsamy,ABPM,Royapalayam BO,19-01-2024,19-01-2024,1,K Karuppasamy,010015943102,Personal Affairs,Paid Leave
+2,K Lakshmanan,ABPM,Koothiargundu,11-01-2024,13-01-2024,3,R Parameswari,3092567376,Personal affairs,Paid Leave
+3,S Palanikumarasamy,BPM,Koovalapuram,30-01-2024,31-01-2024,2,S Prabhavathi,3868258552,Personal affairs,Paid Leave
+4,R Mathavan,ABPM,Thangalacheri,30-01-2024,31-01-2024,2,M Mahendran,4108788303,Personal affairs,Paid Leave
+5,G Vennila,Dak Sevak,Tirumangalam SO,27-01-2024,27-01-2024,1,K Bhavani,0831579324,Personal affairs,Paid Leave
+6,N Krishnammal,Dak Sevak,Tirumangalam SO,18-01-2024,18-01-2024,1,K Bhavani,0831579324,Personal affairs,Paid Leave
+7,N Krishnammal,Dak Sevak,Tirumangalam SO,24-01-2024,24-01-2024,1,K Bhavani,0831579324,Personal affairs,Paid Leave
+1,G Manikandan,ABPM,M Subbulapuram BO,31-01-2024,31-01-2024,1,J Rajapandi,3408128574,Personal affairs,Paid Leave
+2,Aparajitha Pon,ABPM,Kangeyanatham,29-01-2024,31-01-2024,3,K Sundarapandi,010033869013,Personal affairs,Paid Leave
+,,,,,,,,,,Paid Leave
+1,Karthikeyan R,BPM,A.Ammapatti,28-02-2024,29-02-2024,2,Umameena G,4814002403,Personal affairs,Paid Leave
+2,Athikesavan,ABPM,Achampatti,15-02-2024,17-02-2024,3,Kalidoss M,010034634447,Personal affairs,Paid Leave
+3,V Velu,ABPM,Alampatti,09-02-2024,09-02-2024,1,Kalidoss M,010034634447,Personal affairs,Paid Leave
+4,K Sivapriya,ABPM,Alapalachery,08-02-2024,08-02-2024,1,Arun R,010021737665,Personal affairs,Paid Leave
+5,P Vellaiyammal,BPM,Appakarai,15-02-2024,16-02-2024,2,Jansirani S,4115088489,Personal affairs,Paid Leave
+6,C Ashokkumar,ABPM,Austinpatti,01-02-2024,01-02-2024,1,Inbamani M,4106179691,Personal affairs,Paid Leave
+7,Balagovindan,BPM,Harveypatti,07-02-2024,10-02-2024,4,Umameena G,4814002403,Personal affairs,Paid Leave
+8,S Kalieswaran,BPM,Jariusilampatti,12-02-2024,13-02-2024,2,Vijayalakshmi R,1893169966,Personal affairs,Paid Leave
+9,Raja,BPM,Kadaneri,12-02-2024,17-02-2024,6,Karthigai Selvi,3470937920,Personal affairs,Paid Leave
+10,Rajagopalakrishnan,BPM,Karaikeni,01-02-2024,01-02-2024,1,Vijayalakshmi R,1893169966,Personal affairs,Paid Leave
+11,A Harnee,BPM,Kilavaneri,19-02-2024,19-02-2024,1,Jansirani S,4115088489,Personal affairs,Paid Leave
+12,M Monika,BPM,Kuraiyur,24-02-2024,24-02-2024,1,Dhanesh Raj J,0831719940,Personal affairs,Paid Leave
+14,S Selvaraj,ABPM,M.Pudupatti,01-02-2024,01-02-2024,1,Manikandan K,010016472295,Personal affairs,Paid Leave
+15,M Sankarapandian,ABPM,M.Puliyankulam,12-02-2024,14-02-2024,3,Selvaraj M,2673623142,Personal affairs,Paid Leave
+16,K Vasurajan,ABPM,Madipanur,05-02-2024,05-02-2024,1,Chandran P,6339694718,Personal affairs,Paid Leave
+17,K Vasurajan,ABPM,Madipanur,10-02-2024,10-02-2024,1,Chandran P,6339694718,Personal affairs,Paid Leave
+18,V Rajapandi ,ABPM,Mangalrevu,12-02-2024,16-02-2024,5,Suresh P,4158109752,Personal affairs,Paid Leave
+19,V Rajapandi ,ABPM,Mangalrevu,19-02-2024,23-02-2024,5,Suresh P,4158109752,Personal affairs,Paid Leave
+20,Karmegam,ABPM,Marudangudi,19-02-2024,29-02-2024,11,Chandra Bose K,4180976230,Personal affairs,Paid Leave
+21,Ramkumar,BPM,Nallamaram,07-02-2024,13-02-2024,7,Jansirani S,4115088489,Personal affairs,Paid Leave
+22,K Amutha,ABPM,Nallamaram,15-02-2024,16-02-2024,2,Parasakthi S,4268014205,Personal affairs,Paid Leave
+23,N Jeyamalathi,BPM,Nilaiyur,09-02-2024,10-02-2024,2,Parameswari R,3092567376,Personal affairs,Paid Leave
+24,N Jeyamalathi,BPM,Nilaiyur,23-02-2024,23-02-2024,1,Umameena G,4814002403,Personal affairs,Paid Leave
+25,Paraman,ABPM,Pappayapuram,19-02-2024,24-02-2024,6,Venugopal P,1893257861,Personal affairs,Paid Leave
+26,Paraman,ABPM,Pappayapuram,14-02-2024,17-02-2024,4,Venugopal P,1893257861,Personal affairs,Paid Leave
+27,K Keerthi,ABPM,Ponnamangalam,08-02-2024,08-02-2024,1,Sundharamoorthi S,4216994696,Personal affairs,Paid Leave
+28,Chellammai,ABPM,Sathangudi,07-02-2024,09-02-2024,3,Poun Fathima N,010001769756,Personal affairs,Paid Leave
+29,Chellammai,ABPM,Sathangudi,16-02-2024,19-02-2024,4,Sundharamoorthi S,4216994696,Personal affairs,Paid Leave
+30,Elangovan,ABPM,Sevarakottai,15-02-2024,15-02-2024,1,Velmurugan R,010034518113,Personal affairs,Paid Leave
+31,Karuppasamy,ABPM,Silarapatti,13-02-2024,13-02-2024,1,Venugopal P,1893257861,Personal affairs,Paid Leave
+32,K Meenakshi,ABPM,Sithalai,08-02-2024,09-02-2024,2,Kannan S,4629328590,Personal affairs,Paid Leave
+33,Varshini,BPM,Sowdarpatti,19-02-2024,19-02-2024,1,Parameswari R,3092567376,Personal affairs,Paid Leave
+34,Keerthana,ABPM,Sowdarpatti,19-02-2024,19-02-2024,1,Arun R,010021737665,Personal affairs,Paid Leave
+35,K Karunya,ABPM,Thanakkankulam ,21-02-2024,22-02-2024,2,Nilafar Nisha S,1209692546,Personal affairs,Paid Leave
+36,Mathavan,ABPM,Thangalacheri,15-02-2024,16-02-2024,2,Mahendran R,4108788303,Personal affairs,Paid Leave
+37,Vaishali,BPM,Tirali,21-02-2024,22-02-2024,2,Jansirani S,4115088489,Personal affairs,Paid Leave
+38,Vaishali,BPM,Tirali,23-02-2024,24-02-2024,2,Jansirani S,4115088489,Personal affairs,Paid Leave
+39,Mohankumar,BPM,Veeraperumalpuram,20-02-2024,24-02-2024,5,Parameswari R,3092567376,Personal affairs,Paid Leave
+40,Nagabavanpriya,Dak Sevak,Kappalur Indl Estate SO,13-02-2024,16-02-2024,4,Hariram R,3589311901,Personal affairs,Paid Leave
+41,M Shobana,Dak Sevak,T.Kunnathur SO,05-02-2024,07-02-2024,3,Nagaraj,4120928022,Personal affairs,Paid Leave
+42,T S Chandralekha,Dak Sevak,Tirumangalam SO,12-02-2024,16-02-2024,5,Ariyaganayagam N,010009918168,Personal affairs,Paid Leave
+43,G Vennila,Dak Sevak,Tirumangalam SO,12-02-2024,15-02-2024,4,Bhavani K,0831579324,Personal affairs,Paid Leave
+44,P Baskaran,Dak Sevak,TVS Nagar SO,13-02-2024,13-02-2024,1,Nagajothi S,1160736815,Personal affairs,Paid Leave
+45,L Balasubramanian,Dak Sevak,Villur SO,15-02-2024,16-02-2024,2,Selvaraj M,2673623142,Personal affairs,Paid Leave
+46,L Balasubramanian,Dak Sevak,Villur SO,21-02-2024,21-02-2024,1,Selvaraj M,2673623142,Personal affairs,Paid Leave
+47,Vijay,Dak Sevak,Villur SO,19-02-2024,21-02-2024,3,Selvaraj M,2673623142,Personal affairs,Paid Leave
+13,S Valliammai,BPM,Lalapuram,13-02-2024,19-02-2024,7,Anitha V,3941155211,Personal affairs,Paid Leave
+,S Valliammai,BPM,Lalapuram,20-02-2024,20-02-2024,1,Pappammal Alias Malarvizhi,4815315175,Personal affairs,Paid Leave
+,S Valliammai,BPM,Lalapuram,21-02-2024,21-02-2024,1,Uma K,2762302170,Personal affairs,Paid Leave
+,S Valliammai,BPM,Lalapuram,22-02-2024,22-02-2024,1,Anitha V,3941155211,Personal affairs,Paid Leave
+1,M Jeganathan,BPM,K.Sennampatti,27-02-2024,29-02-2024,3,Jansirani S,4115088489,Personal affairs,Paid Leave
+2,S Selvaraj,ABPM,M.Pudupatti,09-02-2024,09-02-2024,1,Rajapandi J,3408128574,Personal affairs,Paid Leave
+3,Tharshana,BPM,Urappanur,10-02-2024,10-02-2024,1,Bindhu R,3988287807,Personal affairs,Paid Leave
+4,Tharshana,BPM,Urappanur,15-02-2024,15-02-2024,1,Umameena G,4814002403,Personal affairs,Paid Leave
+1,Aparajitha Pon,ABPM,Kangeyanatham,01-02-2024,02-02-2024,2,Sundarapandian K,010033869013,Personal affairs,Paid Leave
+1,Tharshana,BPM,Urappanur,01-02-2024,01-02-2024,1,Alagulakshmi A,010002991432,Personal affairs,Paid Leave
+1,Karthikeyan,BPM,A.Ammapatti,16-03-2024,18-03-2024,3,Sumathi S,0831917454,Personal affairs,Paid Leave
+2,Athikesavan,ABPM,Achampatti,06-03-2024,09-03-2024,4,Ashokkumar S,3408950687,Personal affairs,Paid Leave
+3,Vellaiyammal,BPM,Appakarai,22-03-2024,22-03-2024,1,Jansirani S,4115088489,Personal affairs,Paid Leave
+4,Sundarraj,ABPM,Deivanayagapuram,15-03-2024,16-03-2024,2,Balaji M,1892367051,Personal affairs,Paid Leave
+5,Kumarasamy,BPM,Genjampatti,20-03-2024,20-03-2024,1,Vijayalakshmi R,1893169966,Personal affairs,Paid Leave
+6,Kalieswaran S,BPM,Jariusilampatti,08-03-2024,09-03-2024,2,Vijayalakshmi R,1893169966,Personal affairs,Paid Leave
+7,Jeganathan M,BPM,K.Sennampatti,01-03-2024,01-03-2024,1,Jansirani S,4115088489,Personal affairs,Paid Leave
+8,Anusya,ABPM,Kadaneri,27-03-2024,27-03-2024,1,Santhamahadevi,4900379914,Personal affairs,Paid Leave
+9,Rajagopalakrishnan,BPM,Karaikeni,01-03-2024,01-03-2024,1,Vijayalakshmi R,1893169966,Personal affairs,Paid Leave
+10,Harnee,BPM,Kilavaneri,09-03-2024,09-03-2024,1,Jansirani S,4115088489,Personal affairs,Paid Leave
+11,Selvaraj,ABPM,M.Pudupatti,09-03-2024,09-03-2024,1,Rajapandi J,3408128574,Personal affairs,Paid Leave
+12,Selvaraj,ABPM,M.Pudupatti,11-03-2024,11-03-2024,1,Rajapandi J,3408128574,Personal affairs,Paid Leave
+13,Vidya,BPM,M.Puliyankulam,08-03-2024,09-03-2024,2,Anitha V,3941155211,Personal affairs,Paid Leave
+14,Vasurajan,ABPM,Madipanur,08-03-2024,09-03-2024,2,Chandran P,6339694718,Personal affairs,Paid Leave
+15,Vasurajan,ABPM,Madipanur,22-03-2024,22-03-2024,1,Chandran P,6339694718,Personal affairs,Paid Leave
+16,Gunalan,BPM,Melakottai,18-03-2024,18-03-2024,1,Bindhu R,3988287807,Personal affairs,Paid Leave
+17,Ramkumar,BPM,Nallamaram,15-03-2024,16-03-2024,2,Vijayalakshmi R,1893169966,Personal affairs,Paid Leave
+18,Sivagami,BPM,P.Thottiapatti,11-03-2024,11-03-2024,1,Subbulakshmi P,3463732549,Personal affairs,Paid Leave
+19,Sekar,BPM,Periyapoolampatti,25-03-2024,25-03-2024,1,uma K,2762302170,Personal affairs,Paid Leave
+20,Irulappan,ABPM,S.P.Natham,15-03-2024,15-03-2024,1,Selvamani E,0831625845,Personal affairs,Paid Leave
+21,Chellammai,ABPM,Sathangudi,18-03-2024,18-03-2024,1,Soundarapandi K,010033869013,Personal affairs,Paid Leave
+22,Kanjana P,BPM,Solaipatti,02-03-2024,02-03-2024,1,Dinesh Babu R,0831704364,Personal affairs,Paid Leave
+23,Kanjana P,BPM,Solaipatti,25-03-2024,25-03-2024,1,Bindhu R,3988287807,Personal affairs,Paid Leave
+24,Yamuna,ABPM,Solaipatti,08-03-2024,09-03-2024,2,Arunpandiyan S,010009879866,Personal affairs,Paid Leave
+25,Varshini,BPM,Sowdarpatti,02-03-2024,02-03-2024,1,Palaniselvam P,4123858012,Personal affairs,Paid Leave
+26,Varshini,BPM,Sowdarpatti,09-03-2024,09-03-2024,1,Muneeswari T,4579760358,Personal affairs,Paid Leave
+27,Keerthana,ABPM,Sowdarpatti,02-03-2024,02-03-2024,1,Arun R,010021737665,Personal affairs,Paid Leave
+28,Amutha,BPM,Thanakkankulam ,09-03-2024,09-03-2024,1,Santhoshkumar M,3030608765,Personal affairs,Paid Leave
+29,Mathavan,ABPM,Thangalacheri,23-03-2024,23-03-2024,1,Mahendran R,4108788303,Personal affairs,Paid Leave
+30,Mathavan,ABPM,Thangalacheri,26-03-2024,26-03-2024,1,Mahendran R,4108788303,Personal affairs,Paid Leave
+31,Tharshana,BPM,Urappanur,11-03-2024,11-03-2024,1,Jansirani S,4115088489,Personal affairs,Paid Leave
+32,Sundararajan,BPM,Vadakkampatti,06-03-2024,06-03-2024,1,Sharmili S,2038468883,Personal affairs,Paid Leave
+33,Sivasubramanian,BPM,Vilachery ,01-03-2024,02-03-2024,2,Parameswari R,3092567376,Personal affairs,Paid Leave
+34,Sivasubramanian,BPM,Vilachery ,09-03-2024,09-03-2024,1,Umameena G,4814002403,Personal affairs,Paid Leave
+35,Sivasubramanian,BPM,Vilachery ,18-03-2024,19-03-2024,2,Santhoshkumar M,3030608765,Personal affairs,Paid Leave
+36,Gopi,Dak Sevak,Pasumalai SO,01-03-2024,01-03-2024,1,Sridhar M,010005768623,Personal affairs,Paid Leave
+37,Gopi,Dak Sevak,Pasumalai SO,07-03-2024,08-03-2024,2,Lakshmi,010022168008,Personal affairs,Paid Leave
+39,Sathyapriya S,Dak Sevak,T.Kallupatti SO,20-03-2024,20-03-2024,1,Manikandan K,010016472295,Personal affairs,Paid Leave
+40,Selvam S,Dak Sevak,T.Kunnathur SO,04-03-2024,05-03-2024,2,Nagaraj,4120928022,Personal affairs,Paid Leave
+41,Shobana,Dak Sevak,T.Kunnathur SO,07-03-2024,07-03-2024,1,Nagaraj,4120928022,Personal affairs,Paid Leave
+42,Shobana,Dak Sevak,T.Kunnathur SO,25-03-2024,26-03-2024,2,Vignesh R,010012393953,Personal affairs,Paid Leave
+43,Nivetha,Dak Sevak,T.Pudupatti SO,21-03-2024,21-03-2024,1,NAGARAJ,4120928022,Personal affairs,Paid Leave
+44,Nandhini P,Dak Sevak,Tirumangalam SO,11-03-2024,12-03-2024,2,Aarthy M,010021099867,Personal affairs,Paid Leave
+45,Krishnammal N,Dak Sevak,Tirumangalam SO,06-03-2024,09-03-2024,4,Bhavani K,0831579324,Personal affairs,Paid Leave
+46,Krishnammal N,Dak Sevak,Tirumangalam SO,12-03-2024,14-03-2024,3,Bhavani K,0831579324,Personal affairs,Paid Leave
+47,Krishnammal N,Dak Sevak,Tirumangalam SO,25-03-2024,25-03-2024,1,Bhavani K,0831579324,Personal affairs,Paid Leave
+48,Vennila G,Dak Sevak,Tirumangalam SO,11-03-2024,11-03-2024,1,Bhavani K,0831579324,Personal affairs,Paid Leave
+49,Baskaran P,Dak Sevak,TVS Nagar SO,01-03-2024,01-03-2024,1,Nagajothi S,1160736815,Personal affairs,Paid Leave
+1,Arjun,BPM,Sathangudi,30-03-2024,30-03-2024,1,Muneeswari T,4579760358,Personal affairs,Paid Leave
+38,Gopi,Dak Sevak,Pasumalai SO,12-03-2024,15-03-2024,4,Murugan  P,#N/A,Personal affairs,Paid Leave
+1,Karthikeyan,BPM,A.Ammapatti,09-04-2024,09-04-2024,1,Bindhu R,3988287807,Personal affairs,Paid Leave
+2,Velu,ABPM,Alampatti,04-04-2024,04-04-2024,1,Karthik Raja,3074142324,Personal affairs,Paid Leave
+3,Sivapriya,ABPM,Alapalachery,01-04-2024,10-04-2024,10,Arun R,010021737665,Personal affairs,Paid Leave
+4,Kumarasamy,BPM,Genjampatti,12-04-2024,12-04-2024,1,Vijayalakshmi R,1893169966,Personal affairs,Paid Leave
+5,Jeganathan M,BPM,K.Sennampatti,08-04-2024,08-04-2024,1,Alagulakshmi A,010002991432,Personal affairs,Paid Leave
+6,Jeganathan M,BPM,K.Sennampatti,17-04-2024,17-04-2024,1,Jansirani S,4115088489,Personal affairs,Paid Leave
+7,Muthukumar S,ABPM,K.Sennampatti,22-04-2024,23-04-2024,2,Rajalakshmi ,7667379324,Personal affairs,Paid Leave
+8,Palanikumarasamy,BPM,Koovalapuram,08-04-2024,10-04-2024,3,Prabhavathi,3868258552,Personal affairs,Paid Leave
+11,Vasurajan,ABPM,Madipanur,12-04-2024,12-04-2024,1,Chandran P,6339694718,Personal affairs,Paid Leave
+12,Tamilarasi,BPM,Mangalrevu,05-04-2024,05-04-2024,1,Prabhavathi,3868258552,Personal affairs,Paid Leave
+13,Amutha,ABPM,Nallamaram,12-04-2024,13-04-2024,2,Rajapandi J,3408128574,Personal affairs,Paid Leave
+14,Lincy,BPM,Nedungulam,09-04-2024,09-04-2024,1,Alagulakshmi A,010002991432,Personal affairs,Paid Leave
+15,Anitha,Dak Sevak,Nedungulam,04-04-2024,05-04-2024,2,Sundara Pandi,010033869013,Personal affairs,Paid Leave
+16,Hariprabha,ABPM,P.Thottiapatti,03-04-2024,03-04-2024,1,Thangaraju P,4106220072,Personal affairs,Paid Leave
+17,Velusamy,ABPM,Periyapoolampatti,01-04-2024,05-04-2024,5,Saravanan,4203419287,Personal affairs,Paid Leave
+18,Arjun,BPM,Sathangudi,01-04-2024,01-04-2024,1,Muneeswari T,4579760358,Personal affairs,Paid Leave
+19,Subhashini,BPM,Silamalaipatti,13-04-2024,13-04-2024,1,Subbulakshmi p,3463732549,Personal affairs,Paid Leave
+20,Karuppasamy,ABPM,Silarapatti,17-04-2024,17-04-2024,1,Venugopal P,1893257861,Personal affairs,Paid Leave
+21,Meenakshi,ABPM,Sithalai,09-04-2024,09-04-2024,1,Kannan S,4629328590,Personal affairs,Paid Leave
+22,Kanjana P,BPM,Solaipatti,12-04-2024,13-04-2024,2,Bindhu R,3988287807,Personal affairs,Paid Leave
+23,Rekha,ABPM,Tirali,09-04-2024,10-04-2024,2,Sundara Pandi,010033869013,Personal affairs,Paid Leave
+24,Rekha,ABPM,Tirali,12-04-2024,13-04-2024,2,Sundara Pandi,10033869013,Personal affairs,Paid Leave
+25,Tharshana,BPM,Urappanur,22-04-2024,22-04-2024,1,Chithra J,4106180475,Personal affairs,Paid Leave
+26,Sundararajan,BPM,Vadakkampatti,22-04-2024,22-04-2024,1,Alagulakshmi A,010002991432,Personal affairs,Paid Leave
+27,Ramasamy,ABPM,Veeraperumalpuram,15-04-2024,19-04-2024,5,Kondammal,4138144629,Personal affairs,Paid Leave
+28,Hari Abinash,ABPM,Vilachery ,01-04-2024,04-04-2024,4,Nilafar Nisha S,1209692546,Personal affairs,Paid Leave
+29,Poorani B,Dak Sevak,Alagappan nagar SO,15-04-2024,15-04-2024,1,Nagajothi S,1160736815,Personal affairs,Paid Leave
+30,Poorani B,Dak Sevak,Alagappan nagar SO,23-04-2024,23-04-2024,1,Nagajothi S,1160736815,Personal affairs,Paid Leave
+31,Ramya,Dak Sevak,Peraiyur SO,08-04-2024,08-04-2024,1,Thangaraju P,4106220072,Personal affairs,Paid Leave
+32,Selvam S,Dak Sevak,T.Kunnathur SO,02-04-2024,02-04-2024,1,Nagaraj,4120928022,Personal affairs,Paid Leave
+33,Vennila G,Dak Sevak,Tirumangalam SO,20-04-2024,20-04-2024,1,Bhavani K,0831579324,Personal affairs,Paid Leave
+34,Pavithra,BPM,M Subbulapuram,22-04-2024,22-04-2024,1,Prabhavathi,3868258552,Personal affairs,Paid Leave
+35,Anitha,Dak Sevak,Nedungulam,22-04-2024,22-04-2024,1,Velmurugan R,010034518113,Personal affairs,Paid Leave
+36,Balasubramanian,Dak Sevak,Villur SO,15-04-2024,18-04-2024,4,Ponnusamy C,3854632403,Personal affairs,Paid Leave
+37,Balasubramanian,Dak Sevak,Villur SO,22-04-2024,23-04-2024,2,Ponnusamy C,3854632403,Personal affairs,Paid Leave
+9,Ammavasi,BPM,Lalapuram,15-04-2024,19-04-2024,5,Petchiammal,2673551254,Personal affairs,Paid Leave
+10,Ammavasi,BPM,Lalapuram,22-04-2024,26-04-2024,5,Petchiammal,2673551254,Personal affairs,Paid Leave
+11,Gayathri,BPM,M.Pudupatti,01-03-2024,09-03-2024,9,Subbulakshmi P,3463732549,Personal affairs,Paid Leave
+,Gajendra Bhupathi,Dak Sevak,Tirunagar SO,08-04-2024,09-04-2024,2,Santhoshkumar M,3030608765,Personal affairs,Paid Leave

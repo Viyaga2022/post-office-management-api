@@ -6,7 +6,7 @@ const Leave = require('../../models/leave/leaveModel');
 const Office = require('../../models/office/OfficeModel')
 const RegularEmployees = require('../../models/employee/regularEmployee/regularEmployeeModel')
 const Substitutes = require('../../models/employee/substituteEmployee/substituteEmployeeModel')
-const { formatDate, getMonthAndYear, textCapitalize } = require('../../service');
+const { formatDate, getMonthAndYear, textCapitalize, isNameSimilar } = require('../../service');
 
 // common =================================================================
 const uploadLeaveToDB = ash(async (req, res) => {
@@ -23,10 +23,10 @@ const uploadLeaveToDB = ash(async (req, res) => {
                 const selectedData = {
                     employeeId: employees.filter((item) => {
                         const offName = item.officeName === data.officeName.trim().toLowerCase().replace(" bo", "")
-                        // const name = item.name === data.name.trim().toLowerCase()
-                        // console.log({ itOff: item.officeName, daOff: data.officeName,offName, itName: item.name, daName: data.name, name});
-
-                        return offName
+                        const name = isNameSimilar(item.name, data.name.trim().toLowerCase())
+                        // console.log({ offName, itName: item.name, daName: data.name, name});
+                        if (offName && name) return true
+                        return false
                     })[0]?._id,
                     name: data.name ? data.name.trim().toLowerCase() : "NO DATA",
                     designation: data.designation.trim().toLowerCase(),
@@ -44,13 +44,17 @@ const uploadLeaveToDB = ash(async (req, res) => {
                     status: 1,
                 };
 
-                console.log({selectedData});
+                if (!selectedData.substituteId) {
+                    console.log({ selectedData });
+
+                }
                 results.push(selectedData);
+
             }
         })
         .on('end', async () => {
             await Leave.insertMany(results);
-            res.status(200).json({ message: "uploaded succesfully" })
+            res.status(200).json({ message: "data uploaded", results })
         })
 })
 
@@ -142,7 +146,7 @@ const getLeavesByType = ash(async (req, res) => {
 
 const updateLeave = ash(async (req, res) => {
     const { name, employeeId, designation, officeId, officeName, leaveMonth, from, to, days,
-        substituteName, substituteId, accountNo, remarks, leaveType, status} = req.body
+        substituteName, substituteId, accountNo, remarks, leaveType, status } = req.body
 
     const id = req.params.id
 

@@ -8,7 +8,7 @@ const leaveSchema = new mongoose.Schema(
         },
         employeeId: {
             type: mongoose.SchemaTypes.ObjectId,
-            required: true,
+            // required: true,
             ref: "RegularEmployee"
         },
         designation: {
@@ -45,7 +45,7 @@ const leaveSchema = new mongoose.Schema(
         substituteId: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: "SubstituteEmployee",
-            required: true,
+            // required: true,
         },
         substituteName: {
             type: String,

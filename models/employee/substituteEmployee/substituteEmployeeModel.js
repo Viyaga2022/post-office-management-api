@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { union } = require('zod')
+const { union, number } = require('zod')
 
 const substituteEmployeeSchema = new mongoose.Schema(
     {
@@ -27,6 +27,11 @@ const substituteEmployeeSchema = new mongoose.Schema(
         workingDays: {
             type: Number,
             dafault: 0,
+        },
+        status: {
+            type: Number,
+            enum: [0, 1],
+            default: 1,
         },
         createdAt: {
             type: Date,

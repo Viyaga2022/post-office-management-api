@@ -24,6 +24,11 @@ const regularEmployeeSchema = new mongoose.Schema(
             required: true,
             default: 'tirumangalam'
         },
+        status: {
+            type: Number,
+            enum: [0, 1],
+            default: 1,
+        },
         createdAt: {
             type: Date,
             default: Date.now
