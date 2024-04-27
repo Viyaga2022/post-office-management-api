@@ -4,7 +4,7 @@ const Office = require('../../../models/office/OfficeModel')
 const fs = require('fs')
 const csv = require('csv-parser');
 const { z } = require('zod');
-const { textCapitalize } = require('../../../service');
+const { textCapitalize, isNameSimilar } = require('../../../service');
 
 const uploadRegularEmployeesToDB = ash(async (req, res) => {
     const { fileName } = req.params
@@ -14,15 +14,16 @@ const uploadRegularEmployeesToDB = ash(async (req, res) => {
         .pipe(csv())
         .on('data', (data) => {
             const selectedData = {
-                name: data.name ? data.name.trim().toLowerCase() : "VACANT",
-                designation: data.officeName ? data.designation.trim().toLowerCase() : undefined,
-                officeId: offices.filter((item) => item.officeName === data.officeName.trim().toLowerCase().replace(" bo", ""))[0]?._id,
-                officeName: data.officeName ? data.officeName.trim().toLowerCase() : undefined,
+                name: data.name ? data.name.trim().toLowerCase() : "vacant place",
+                designation: data.designation.trim().toLowerCase(),
+                officeId: offices.filter((item) => isNameSimilar(item.officeName, data.officeName.trim().toLowerCase().replace(" bo", "")))[0]?._id,
+                officeName: data.officeName.trim().toLowerCase(),
             };
 
-            if(!selectedData.officeId) {
-                console.log({selectedData});
+            if (!selectedData.officeId) {
+                console.log({ selectedData });
             }
+            
             results.push(selectedData);
         })
         .on('end', async () => {
