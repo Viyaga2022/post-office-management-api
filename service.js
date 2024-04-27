@@ -28,6 +28,34 @@ const findNumberOfDays = (fromDate, toDate) => {
     return days
 }
 
+const isIntialChanged = (nameOne, nameTwo) => {
+    let name1 = nameOne
+    let name2 = nameTwo
+    const nameOneArray = nameOne.split(' ')
+    const nameTwoArray = nameTwo.split(' ')
+
+    if (nameOneArray[0].length === 1 && (nameOneArray[0] === nameTwoArray[nameTwoArray.length - 1])) { // if initial in front of the first array and last of the 2nd array same
+        nameOneArray.shift()
+        name1 = nameOneArray.join(' ')
+
+        nameTwoArray.pop()
+        name2 = nameTwoArray.join(' ')
+
+        return { initialDeletedNameOne: name1, initialDeletedNameTwo: name2 }
+    } else if (nameOneArray[nameOneArray.length - 1].length === 1 && (nameOneArray[nameOneArray.length - 1] === nameTwoArray[0])) { // if initial in back of the first array and front of the 2nd array same
+        nameOneArray.pop()
+        name1 = nameOneArray.join(' ')
+
+        nameTwoArray.shift()
+        name2 = nameTwoArray.join(' ')
+
+        return { initialDeletedNameOne: name1, initialDeletedNameTwo: name2 }
+
+    }
+
+    return false
+}
+
 const calculateLevenshteinDistance = (a, b) => {
     const dp = Array(a.length + 1).fill(null).map(() => Array(b.length + 1).fill(0));
 
@@ -53,8 +81,17 @@ const calculateLevenshteinDistance = (a, b) => {
     return dp[a.length][b.length];
 }
 
-const isNameSimilar = (name1, name2) => {
-    const distance = calculateLevenshteinDistance(name1.toLowerCase(), name2.toLowerCase());
+const isNameSimilar = (nameOne, nameTwo) => {
+    let name1 = nameOne.trim().toLowerCase()
+    let name2 = nameTwo.trim().toLowerCase()
+
+    const isInitialChanged = isIntialChanged(name1, name2)
+    if (isInitialChanged) {
+        name1 = isInitialChanged.initialDeletedNameOne
+        name2 = isInitialChanged.initialDeletedNameTwo
+    }
+
+    const distance = calculateLevenshteinDistance(name1, name2);
     return distance <= 3 // threshold
 }
 

@@ -10,7 +10,6 @@ const substituteEmployeeSchema = new mongoose.Schema(
         accountNo: {
             type: String,
             required: true,
-            unique: true,
         },
         subdivisionName: {
             type: String,
@@ -30,7 +29,7 @@ const substituteEmployeeSchema = new mongoose.Schema(
         },
         status: {
             type: Number,
-            enum: [0, 1],
+            enum: [0, 1, -1],
             default: 1,
         },
         createdAt: {

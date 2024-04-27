@@ -12,6 +12,6 @@ router.put('/pending/:id', updateLeave);
 
 router.delete('/pending/:id', deleteLeave);
 
-router.get('/:leaveType/:fromDate/:toDate', getLeavesByType);
+router.get('/:leaveType/:fromDate/:toDate/:officeId?/:employeeId?/:substituteId?/:remarks?', getLeavesByType);
 
 module.exports = router

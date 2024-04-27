@@ -7,6 +7,7 @@ const Office = require('../../models/office/OfficeModel')
 const RegularEmployees = require('../../models/employee/regularEmployee/regularEmployeeModel')
 const Substitutes = require('../../models/employee/substituteEmployee/substituteEmployeeModel')
 const { formatDate, getMonthAndYear, textCapitalize, isNameSimilar } = require('../../service');
+const { parse } = require('path');
 
 // common =================================================================
 const uploadLeaveToDB = ash(async (req, res) => {
@@ -24,7 +25,6 @@ const uploadLeaveToDB = ash(async (req, res) => {
                     employeeId: employees.filter((item) => {
                         const offName = item.officeName === data.officeName.trim().toLowerCase().replace(" bo", "")
                         const name = isNameSimilar(item.name, data.name.trim().toLowerCase())
-                        // console.log({ offName, itName: item.name, daName: data.name, name});
                         if (offName && name) return true
                         return false
                     })[0]?._id,
@@ -45,7 +45,6 @@ const uploadLeaveToDB = ash(async (req, res) => {
                 };
 
                 if (!selectedData.substituteId) {
-                    console.log({ selectedData });
 
                 }
                 results.push(selectedData);
@@ -139,8 +138,15 @@ const getPendingLeaves = ash(async (req, res) => {
 });
 
 const getLeavesByType = ash(async (req, res) => {
-    const { leaveType, fromDate, toDate } = req.params
-    const leaves = await Leave.find({ leaveType, status: 1, from: { $gte: fromDate, $lte: toDate } }).sort({ from: 1 });
+    const { leaveType, fromDate, toDate, officeId, employeeId, substituteId, remarks } = req.params
+    const filter = {}
+
+    if (parseInt(officeId) !== 0) filter.officeId = officeId
+    if (parseInt(employeeId) !== 0) filter.employeeId = employeeId
+    if (parseInt(substituteId) !== 0) filter.substituteId = substituteId
+    if (parseInt(remarks) !== 0) filter.remarks = remarks
+
+    const leaves = await Leave.find({ leaveType, status: 1, ...filter, from: { $gte: fromDate, $lte: toDate }}).sort({ from: 1 });
     res.status(200).json({ leaves });
 });
 

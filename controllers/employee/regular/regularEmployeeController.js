@@ -19,6 +19,10 @@ const uploadRegularEmployeesToDB = ash(async (req, res) => {
                 officeId: offices.filter((item) => item.officeName === data.officeName.trim().toLowerCase().replace(" bo", ""))[0]?._id,
                 officeName: data.officeName ? data.officeName.trim().toLowerCase() : undefined,
             };
+
+            if(!selectedData.officeId) {
+                console.log({selectedData});
+            }
             results.push(selectedData);
         })
         .on('end', async () => {
@@ -37,7 +41,7 @@ const createRegularEmployee = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (parsedData?.success) {
-        const isExisting = await RegularEmployee.findOne({ designation, officeId })
+        const isExisting = await RegularEmployee.findOne({ designation, officeId, status: 1 })
         if (isExisting) {
             const message = textCapitalize(`${designation} was already existing in ${officeName}`)
             return res.status(401).json({ message })
@@ -56,12 +60,12 @@ const getAllOffices = ash(async (req, res) => {
 });
 
 const getAllRegularEmployees = ash(async (req, res) => {
-    const employees = await RegularEmployee.find();
+    const employees = await RegularEmployee.find({ status: 1 });
     res.json({ employees });
 });
 
 const getRegularEmployeeById = ash(async (req, res) => {
-    const employee = await RegularEmployee.findById(req.params.id);
+    const employee = await RegularEmployee.findById(req.params.id, { status: 1 });
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }
@@ -70,7 +74,7 @@ const getRegularEmployeeById = ash(async (req, res) => {
 
 const getEmployeeNameByOfficeIdAndDesignation = ash(async (req, res) => {
     const { officeId, designation } = req.params
-    const employeeData = await RegularEmployee.findOne({ officeId, designation }).select('name');
+    const employeeData = await RegularEmployee.findOne({ officeId, designation, status: 1 }).select('name');
     if (!employeeData) {
         return res.status(404).json({ message: 'Employee not found' });
     }
@@ -89,13 +93,14 @@ const updateRegularEmployee = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (parsedData?.success) {
-        const isExisting = await RegularEmployee.findOne({ designation, officeId })
+        const isExisting = await RegularEmployee.findOne({ designation, officeId, status: 1 })
         if ((isExisting) && (isExisting._id.toString() !== id)) {
             const message = textCapitalize(`${designation} was already existing in ${officeName}`)
             return res.status(401).json({ message })
         }
 
-        const employee = await RegularEmployee.findByIdAndUpdate(id, { name, designation, officeId, officeName }, { new: true });
+        const employee = await RegularEmployee.findOneAndUpdate({ _id: id, status: 1 }, { name, designation, officeId, officeName }, { new: true });
+        if (!employee) return res.status(401).json({ message: "Employee Not Found" })
         return res.status(201).json({ message: "Employee Updated Successfully", employee });
     }
 
@@ -103,7 +108,7 @@ const updateRegularEmployee = ash(async (req, res) => {
 });
 
 const deleteRegularEmployee = ash(async (req, res) => {
-    const employee = await RegularEmployee.findByIdAndDelete(req.params.id);
+    const employee = await RegularEmployee.findByIdAndUpdate(req.params.id, { status: -1 });
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }

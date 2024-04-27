@@ -37,11 +37,11 @@ const createSubstituteEmployee = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (parsedData.success) {
-        const isExisting = await SubstituteEmployee.findOne({ accountNo })
+        const isExisting = await SubstituteEmployee.findOne({ accountNo, status: 1 })
         if (isExisting) return res.status(401).json({ message: "Account No Already Existing" })
 
         const employee = await SubstituteEmployee.create({ name, accountNo });
-        res.status(201).json({ message: "Employee Created Successfully", employee });
+        return res.status(201).json({ message: "Employee Created Successfully", employee });
     }
 
     res.status(401).json({ message: "Invalid Data" })
@@ -49,23 +49,33 @@ const createSubstituteEmployee = ash(async (req, res) => {
 });
 
 const getAllSubstituteEmployees = ash(async (req, res) => {
-    const employees = await SubstituteEmployee.find();
+    const employees = await SubstituteEmployee.find({ status: 1 });
     res.status(201).json({ employees });
 });
 
 const getSubstitutesRegularEmployeeAndHolidays = ash(async (req, res) => {
-    const substitutes = await SubstituteEmployee.find().select(['name', 'accountNo']).sort({ name: 1 });
+    const substitutes = await SubstituteEmployee.find({ status: 1 }).select(['name', 'accountNo']).sort({ name: 1 });
 
-    const employees = await RegularEmployees.find().select(['name', 'designation', 'officeId', 'officeName']).sort({ name: 1 })
+    const employees = await RegularEmployees.find({ status: 1 }).select(['name', 'designation', 'officeId', 'officeName']).sort({ name: 1 })
 
     const holidays = await Holiday.find().select(['holiday', 'date', '-_id']);
 
     res.status(201).json({ substitutes, employees, holidays });
 })
 
+
+const getSubstitutesAndRegularEmployees = ash(async (req, res) => {
+    const substitutes = await SubstituteEmployee.find({ status: 1 }).select(['name', 'accountNo']).sort({ name: 1 });
+
+    const employees = await RegularEmployees.find({ status: 1 }).select(['name', 'designation', 'officeId', 'officeName']).sort({ name: 1 })
+
+    res.status(201).json({ substitutes, employees });
+})
+
 const getNonWorkingSubstitute = ash(async (req, res) => {
     const { fromDate, toDate } = req.params
     const employees = await SubstituteEmployee.find({
+        status: 1,
         $and: [
             {
                 $or: [
@@ -84,7 +94,7 @@ const getNonWorkingSubstitute = ash(async (req, res) => {
 })
 
 const getSubstituteEmployeeById = ash(async (req, res) => {
-    const employee = await SubstituteEmployee.findById(req.params.id);
+    const employee = await SubstituteEmployee.findOne({ _id: req.params.id, status: 1 });
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }
@@ -101,7 +111,12 @@ const updateSubstituteEmployee = ash(async (req, res) => {
     }).safeParse(req.body)
 
     if (parsedData.success) {
-        const employee = await SubstituteEmployee.findByIdAndUpdate(id, { name, accountNo }, { new: true });
+        const isExisting = await SubstituteEmployee.findOne({ accountNo, status: 1 })
+        if (isExisting && (isExisting._id.toString() !== id)) return res.status(401).json({ message: "Account No Already Existing" })
+
+        const employee = await SubstituteEmployee.findOneAndUpdate({ _id: id, status: 1 }, { name, accountNo }, { new: true });
+        if (!employee) return res.status(404).json({ message: 'Employee not found' });
+
         return res.status(201).json({ message: "Employee Updated Successfully", employee });
     }
 
@@ -109,7 +124,7 @@ const updateSubstituteEmployee = ash(async (req, res) => {
 });
 
 const deleteSubstituteEmployee = ash(async (req, res) => {
-    const employee = await SubstituteEmployee.findByIdAndDelete(req.params.id);
+    const employee = await SubstituteEmployee.findByIdAndUpdate(req.params.id, { status: -1 });
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }
@@ -118,7 +133,7 @@ const deleteSubstituteEmployee = ash(async (req, res) => {
 
 module.exports = {
     uploadSubstituteEmployeesToDB, createSubstituteEmployee, getAllSubstituteEmployees, getSubstitutesRegularEmployeeAndHolidays,
-    getNonWorkingSubstitute, getSubstituteEmployeeById, updateSubstituteEmployee, deleteSubstituteEmployee
+    getSubstitutesAndRegularEmployees, getNonWorkingSubstitute, getSubstituteEmployeeById, updateSubstituteEmployee, deleteSubstituteEmployee
 }
 
 

@@ -20,7 +20,7 @@ const createHoliday = ash(async (req, res) => {
 });
 
 const getAllHolidays = ash(async (req, res) => {
-    const holidays = await Holiday.find().select('-_id');
+    const holidays = await Holiday.find();
     res.status(200).json({ holidays });
 });
 
