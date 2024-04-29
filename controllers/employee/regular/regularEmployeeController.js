@@ -16,14 +16,14 @@ const uploadRegularEmployeesToDB = ash(async (req, res) => {
             const selectedData = {
                 name: data.name ? data.name.trim().toLowerCase() : "vacant place",
                 designation: data.designation.trim().toLowerCase(),
-                officeId: offices.filter((item) => isNameSimilar(item.officeName, data.officeName.trim().toLowerCase().replace(" bo", "")))[0]?._id,
+                officeId: offices.filter((item) => item.officeName === data.officeName.trim().toLowerCase().replace(" bo", ""))[0]?._id,
                 officeName: data.officeName.trim().toLowerCase(),
             };
 
             if (!selectedData.officeId) {
                 console.log({ selectedData });
             }
-            
+
             results.push(selectedData);
         })
         .on('end', async () => {
@@ -95,7 +95,7 @@ const updateRegularEmployee = ash(async (req, res) => {
 
     if (parsedData?.success) {
         const isExisting = await RegularEmployee.findOne({ designation, officeId, status: 1 })
-        if ((isExisting) && (isExisting._id.toString() !== id)) {
+        if (isExisting && (isExisting._id.toString() !== id)) {
             const message = textCapitalize(`${designation} was already existing in ${officeName}`)
             return res.status(401).json({ message })
         }
