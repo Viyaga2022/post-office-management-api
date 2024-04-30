@@ -141,12 +141,15 @@ const getLeavesByType = ash(async (req, res) => {
     const { leaveType, fromDate, toDate, officeId, employeeId, substituteId, remarks } = req.params
     const filter = {}
 
+    if (parseInt(leaveType) !== 0) filter.leaveType = leaveType
     if (parseInt(officeId) !== 0) filter.officeId = officeId
     if (parseInt(employeeId) !== 0) filter.employeeId = employeeId
     if (parseInt(substituteId) !== 0) filter.substituteId = substituteId
     if (parseInt(remarks) !== 0) filter.remarks = remarks
 
-    const leaves = await Leave.find({ leaveType, status: 1, ...filter, from: { $gte: fromDate, $lte: toDate }}).sort({ from: 1 });
+    console.log({ filter, employeeId, emp:parseInt(employeeId) });
+
+    const leaves = await Leave.find({ status: 1, ...filter, from: { $gte: fromDate, $lte: toDate } }).sort({ from: 1 });
     res.status(200).json({ leaves });
 });
 
