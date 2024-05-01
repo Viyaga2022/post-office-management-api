@@ -147,7 +147,6 @@ const getLeavesByType = ash(async (req, res) => {
     if (parseInt(substituteId) !== 0) filter.substituteId = substituteId
     if (parseInt(remarks) !== 0) filter.remarks = remarks
 
-    console.log({ filter, employeeId, emp:parseInt(employeeId) });
 
     const leaves = await Leave.find({ status: 1, ...filter, from: { $gte: fromDate, $lte: toDate } }).sort({ from: 1 });
     res.status(200).json({ leaves });
@@ -205,6 +204,17 @@ const updateLeave = ash(async (req, res) => {
     res.status(200).json({ message: "Data Updated Successfully", leave });
 });
 
+const cancelApproval = ash(async (req, res) => {
+    const id = req.params.id
+    const leave = await Leave.findOneAndUpdate({ _id: id, status: 1 }, { status: 0 });
+
+    if (!leave) {
+        return res.status(404).json({ message: "The leave you're looking for is either not found or is pending" });
+    }
+
+    res.status(200).json({ message: "Cancellation successful." });
+})
+
 const deleteLeave = ash(async (req, res) => {
     const id = req.params.id
     const leave = await Leave.findOneAndDelete({ _id: id, status: 0 });
@@ -216,4 +226,7 @@ const deleteLeave = ash(async (req, res) => {
     res.status(200).json({ message: "Data Deleted Successfully" });
 });
 
-module.exports = { uploadLeaveToDB, createLeave, getPendingLeaves, getLeavesByType, updateLeave, deleteLeave }
+module.exports = {
+    uploadLeaveToDB, createLeave, getPendingLeaves, getLeavesByType,
+    updateLeave, cancelApproval, deleteLeave
+}
