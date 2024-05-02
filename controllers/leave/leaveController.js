@@ -86,6 +86,28 @@ const validateSubstitute = async (fromDate, toDate, accountNo, leaveMonth) => {
     return data
 }
 
+const validatePaidLeave = async (from, employeeId, days) => {
+    const year = new Date(from).getFullYear()
+    const month = new Date(from).getMonth()
+
+    let monthsHalf = [`jan${year}`, `feb${year}`, `mar${year}`, `apr${year}`, `may${year}`, `jun${year}`];
+    let halfYear = "First Half"
+    if (month > 5) {
+        monthsHalf = [`jul${year}`, `aug${year}`, `sep${year}`, `oct${year}`, `nov${year}`, `dec${year}`];
+        halfYear = "Second Half"
+    }
+
+    const leaves = await Leave.find({ employeeId, leaveType: "paid leave", leaveMonth: { $in: monthsHalf }, status: 1, }).select(['days', '-_id'])
+
+    let totalLeaveDays = 0
+    for (const leave of leaves) {
+        totalLeaveDays += leave.days
+    }
+
+    if ((totalLeaveDays + days) <= 10) return null
+    return { totalLeaveDays, halfYear }
+}
+
 // crud =============================================================================
 const createLeave = ash(async (req, res) => {
     const { name, employeeId, designation, officeId, officeName, leaveMonth, from, to, days,
@@ -111,16 +133,28 @@ const createLeave = ash(async (req, res) => {
 
     if (!parsedData?.success) return res.status(401).json({ message: "Invalid Data" })
 
-    const isSubstitute = await validateOffice(from, to, designation, officeId, leaveMonth)
-    if (isSubstitute) {
-        const message = textCapitalize(`${isSubstitute.substituteName} is Already scheduled to work as a ${designation} in this office.`)
+    if (new Date(from).getMonth() !== new Date(to).getMonth()) return res.status(401).json("Send separate leave letters for different months")
+
+    const isValidOffice = await validateOffice(from, to, designation, officeId, leaveMonth)
+    if (isValidOffice) {
+        const message = textCapitalize(`${isValidOffice.substituteName} is Already scheduled to work as a ${designation} in this office.`)
         return res.status(401).json({ message })
     }
 
-    const isOfficeName = await validateSubstitute(from, to, accountNo, leaveMonth)
-    if (isOfficeName) {
-        const message = textCapitalize(`This substitute is already scheduled to work at ${isOfficeName.officeName} on this date.`)
+    const isValidSubstitute = await validateSubstitute(from, to, accountNo, leaveMonth)
+    if (isValidSubstitute) {
+        const message = textCapitalize(`This substitute is already scheduled to work at ${isValidSubstitute.officeName} on this date.`)
         return res.status(401).json({ message })
+    }
+
+    if (leaveType === 'paid leave') {
+        if (days > 10) return res.status(401).json({ message: "Paid Leave must be less than 10 days" })
+
+        const isValidPaidLeave = await validatePaidLeave(from, employeeId, days)
+        if (isValidPaidLeave) {
+            const message = textCapitalize(`this employee has already taken ${isValidPaidLeave.totalLeaveDays} days of paid leave in the ${isValidPaidLeave.halfYear} of the year `)
+            return res.status(401).json({ message })
+        }
     }
 
     const leaveData = {
@@ -188,6 +222,16 @@ const updateLeave = ash(async (req, res) => {
     if (isOfficeName) {
         const message = textCapitalize(`This substitute is already scheduled to work at ${isOfficeName.officeName} on this date.`)
         return res.status(401).json({ message })
+    }
+
+    if (leaveType === 'paid leave') {
+        if (days > 10) return res.status(401).json({ message: "Paid Leave must be less than 10 days" })
+
+        const isValidPaidLeave = await validatePaidLeave(from, employeeId, days)
+        if (isValidPaidLeave) {
+            const message = textCapitalize(`this employee has already taken ${isValidPaidLeave.totalLeaveDays} days of paid leave in the ${isValidPaidLeave.halfYear} of the year `)
+            return res.status(401).json({ message })
+        }
     }
 
     const leaveData = {
