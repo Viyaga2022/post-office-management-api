@@ -116,7 +116,7 @@ const createLeave = ash(async (req, res) => {
     const parsedData = z.object({
         name: z.string().min(1).max(50),
         employeeId: z.string().min(1).max(30),
-        designation: z.string().min(1).max(10),
+        designation: z.string().min(1).max(20),
         officeName: z.string().min(1).max(50),
         officeId: z.string().min(1).max(30),
         leaveMonth: z.string().min(1).max(9),
@@ -195,7 +195,7 @@ const updateLeave = ash(async (req, res) => {
     const parsedData = z.object({
         name: z.string().min(1).max(50),
         employeeId: z.string().min(1).max(30),
-        designation: z.string().min(1).max(10),
+        designation: z.string().min(1).max(20),
         officeName: z.string().min(1).max(50),
         officeId: z.string().min(1).max(30),
         leaveMonth: z.string().min(1).max(9),
