@@ -6,7 +6,8 @@ const Leave = require('../../models/leave/leaveModel');
 const Office = require('../../models/office/OfficeModel')
 const RegularEmployees = require('../../models/employee/regularEmployee/regularEmployeeModel')
 const Substitutes = require('../../models/employee/substituteEmployee/substituteEmployeeModel')
-const { formatDate, getMonthAndYear, textCapitalize, isNameSimilar } = require('../../service');
+const Holiday = require('../../models/holiday/holidayModel');
+const { formatDate, getMonthAndYear, textCapitalize, isNameSimilar, getDatesBetween, isHoliday } = require('../../service');
 const { parse } = require('path');
 
 // common =================================================================
@@ -72,10 +73,10 @@ const validateOffice = async (fromDate, toDate, designation, officeId, leaveMont
     return data
 }
 
-const validateSubstitute = async (fromDate, toDate, accountNo, leaveMonth) => {
+const validateSubstitute = async (fromDate, toDate, substituteId, leaveMonth) => {
     const data = await Leave.findOne({
         leaveMonth,
-        accountNo,
+        substituteId,
         status: 1,
         $or: [
             { $and: [{ from: { $lte: fromDate } }, { to: { $gte: fromDate } }] }, // fromDate falls within leave period
@@ -90,14 +91,15 @@ const validatePaidLeave = async (from, employeeId, days) => {
     const year = new Date(from).getFullYear()
     const month = new Date(from).getMonth()
 
-    let monthsHalf = [`jan${year}`, `feb${year}`, `mar${year}`, `apr${year}`, `may${year}`, `jun${year}`];
     let halfYear = "First Half"
+    let monthsHalf = [`jan${year}`, `feb${year}`, `mar${year}`, `apr${year}`, `may${year}`, `jun${year}`];
+
     if (month > 5) {
-        monthsHalf = [`jul${year}`, `aug${year}`, `sep${year}`, `oct${year}`, `nov${year}`, `dec${year}`];
         halfYear = "Second Half"
+        monthsHalf = [`jul${year}`, `aug${year}`, `sep${year}`, `oct${year}`, `nov${year}`, `dec${year}`];
     }
 
-    const leaves = await Leave.find({ employeeId, leaveType: "paid leave", leaveMonth: { $in: monthsHalf }, status: 1, }).select(['days', '-_id'])
+    const leaves = await Leave.find({ employeeId, leaveType: "paid leave", leaveMonth: { $in: monthsHalf }, status: 1, }).limit(25).select(['days', '-_id'])
 
     let totalLeaveDays = 0
     for (const leave of leaves) {
@@ -107,6 +109,11 @@ const validatePaidLeave = async (from, employeeId, days) => {
     if ((totalLeaveDays + days) <= 10) return null
     return { totalLeaveDays, halfYear }
 }
+
+const isMoreThan45Days = async (req, res) => {
+    console.log(45);
+}
+
 
 // crud =============================================================================
 const createLeave = ash(async (req, res) => {
@@ -141,7 +148,7 @@ const createLeave = ash(async (req, res) => {
         return res.status(401).json({ message })
     }
 
-    const isValidSubstitute = await validateSubstitute(from, to, accountNo, leaveMonth)
+    const isValidSubstitute = await validateSubstitute(from, to, substituteId, leaveMonth)
     if (isValidSubstitute) {
         const message = textCapitalize(`This substitute is already scheduled to work at ${isValidSubstitute.officeName} on this date.`)
         return res.status(401).json({ message })
@@ -167,7 +174,9 @@ const createLeave = ash(async (req, res) => {
 });
 
 const getPendingLeaves = ash(async (req, res) => {
-    const leaves = await Leave.find({ status: 0 });
+    const leaves = await Leave.find({ status: 0 }).limit(210);
+    if (leaves?.length > 200) return res.status(401).json({ message: "You can load only upto 200 data" })
+
     return res.status(200).json({ leaves });
 });
 
@@ -182,7 +191,9 @@ const getLeavesByType = ash(async (req, res) => {
     if (parseInt(remarks) !== 0) filter.remarks = remarks
 
 
-    const leaves = await Leave.find({ status: 1, ...filter, from: { $gte: fromDate, $lte: toDate } }).sort({ from: 1 });
+    const leaves = await Leave.find({ status: 1, ...filter, from: { $gte: fromDate, $lte: toDate } }).limit(210).sort({ from: 1 });
+    if (leaves?.length > 200) return res.status(401).json({ message: "You can load only upto 200 data" })
+
     res.status(200).json({ leaves });
 });
 
@@ -212,15 +223,15 @@ const updateLeave = ash(async (req, res) => {
 
     if (!parsedData?.success) return res.status(401).json({ message: "Invalid Data" })
 
-    const isSubstitute = await validateOffice(from, to, designation, officeId, leaveMonth)
-    if (isSubstitute) {
-        const message = textCapitalize(`${isSubstitute.substituteName} is Already scheduled to work as a ${designation} in this office.`)
+    const isValidOffice = await validateOffice(from, to, designation, officeId, leaveMonth)
+    if (isValidOffice) {
+        const message = textCapitalize(`${isValidOffice.substituteName} is Already scheduled to work as a ${designation} in this office.`)
         return res.status(401).json({ message })
     }
 
-    const isOfficeName = await validateSubstitute(from, to, accountNo, leaveMonth)
-    if (isOfficeName) {
-        const message = textCapitalize(`This substitute is already scheduled to work at ${isOfficeName.officeName} on this date.`)
+    const isValidSubstitute = await validateSubstitute(from, to, substituteId, leaveMonth)
+    if (isValidSubstitute) {
+        const message = textCapitalize(`This substitute is already scheduled to work at ${isValidSubstitute.officeName} on this date.`)
         return res.status(401).json({ message })
     }
 
@@ -261,7 +272,7 @@ const cancelApproval = ash(async (req, res) => {
 
 const deleteLeave = ash(async (req, res) => {
     const id = req.params.id
-    const leave = await Leave.findOneAndDelete({ _id: id, status: 0 });
+    const leave = await Leave.findOneAndUpdate({ _id: id, status: 0 }, { status: -1 });
 
     if (!leave) {
         return res.status(404).json({ message: 'Leave not found or Already Approved' });

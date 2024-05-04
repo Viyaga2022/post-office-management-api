@@ -28,6 +28,48 @@ const findNumberOfDays = (fromDate, toDate) => {
     return days
 }
 
+
+const getDatesBetween = (startDate, endDate) => {
+    let datesArray = [];
+    let currentDate = new Date(startDate);
+
+    while (currentDate < endDate) {
+        currentDate.setDate(currentDate.getDate() + 1);
+        datesArray.push(new Date(currentDate));
+        if (datesArray.length > 30) break;
+    }
+
+    return datesArray;
+}
+
+const isHoliday = (holidays, date) => {
+    let holiday = holidays.find((item) => new Date(item.date).getTime() === new Date(date).getTime())?.holiday
+    if (!holiday) {
+        holiday = new Date(date).getDay() === 0 ? "Sunday" : null
+    }
+
+    return holiday
+}
+
+const isContinuousWorkingDates = (date1, date2, holidays) => {
+
+    const betweenDates = getDatesBetween(date1, date2)
+    let breakDay = null
+
+    for (const date of betweenDates) {
+        let holiday = isHoliday(holidays, date)
+
+        if (!holiday) {
+            breakDay = date
+            break;
+        }
+    }
+
+    if (breakDay) return false
+
+    return true
+}
+
 const removeInitialFromName = (name) => {
     const initialRemovedNameArray = name.split(' ').filter(string => string.length > 1)
     const newName = initialRemovedNameArray.join(' ')
@@ -70,4 +112,7 @@ const isNameSimilar = (nameOne, nameTwo) => {
     return distance <= 3 // threshold
 }
 
-module.exports = { textCapitalize, formatDate, getMonthAndYear, findNumberOfDays, isNameSimilar }
+module.exports = {
+    textCapitalize, formatDate, getMonthAndYear, findNumberOfDays, getDatesBetween,
+    isHoliday, isContinuousWorkingDates, isNameSimilar
+}

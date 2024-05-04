@@ -66,7 +66,7 @@ const getAllRegularEmployees = ash(async (req, res) => {
 });
 
 const getRegularEmployeeById = ash(async (req, res) => {
-    const employee = await RegularEmployee.findById(req.params.id, { status: 1 });
+    const employee = await RegularEmployee.findOne({ _id: req.params.id, status: 1 });
     if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
     }
