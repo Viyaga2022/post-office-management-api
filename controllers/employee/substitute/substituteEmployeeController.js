@@ -48,7 +48,7 @@ const createSubstituteEmployee = ash(async (req, res) => {
 });
 
 const getAllSubstituteEmployees = ash(async (req, res) => {
-    const employees = await SubstituteEmployee.find({ status: 1 });
+    const employees = await SubstituteEmployee.find({ status: 1 }).select(['name', 'accountNo', 'workStartDate', 'workEndDate', 'workingDays']);
     res.status(201).json({ employees });
 });
 

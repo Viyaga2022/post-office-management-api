@@ -28,14 +28,15 @@ const findNumberOfDays = (fromDate, toDate) => {
     return days
 }
 
-
 const getDatesBetween = (startDate, endDate) => {
     let datesArray = [];
     let currentDate = new Date(startDate);
+    currentDate.setDate(currentDate.getDate() + 1);
+    const end = new Date(endDate)
 
-    while (currentDate < endDate) {
-        currentDate.setDate(currentDate.getDate() + 1);
+    while (currentDate < end) {
         datesArray.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
         if (datesArray.length > 30) break;
     }
 
@@ -51,9 +52,9 @@ const isHoliday = (holidays, date) => {
     return holiday
 }
 
-const isContinuousWorkingDates = (date1, date2, holidays) => {
+const isContinuousWorkingDates = (holidays, date1, date2) => {
 
-    const betweenDates = getDatesBetween(date1, date2)
+    const betweenDates = getDatesBetween(new Date(date1), new Date(date2))
     let breakDay = null
 
     for (const date of betweenDates) {
@@ -68,6 +69,37 @@ const isContinuousWorkingDates = (date1, date2, holidays) => {
     if (breakDay) return false
 
     return true
+}
+
+const calculateContinuousWorkingDays = (holidays, leaveData, fromDate, toDate) => {
+
+    leaveData.push({ from: fromDate, to: toDate })
+    const leaveDataDates = leaveData.sort((a, b) => new Date(a.from) - new Date(b.from))
+
+    console.log({ leaveDataDates });
+    let dateObj = { workingFromDate: null, workingToDate: null }
+    for (const dates of leaveDataDates) {
+
+        if (!dateObj.workingFromDate) {
+
+            dateObj = { workingFromDate: dates.from, workingToDate: dates.to }
+
+        } else {
+
+            const bool = isContinuousWorkingDates(holidays, dateObj.workingToDate, dates.from)
+            console.log({ bool });
+            if (bool) {
+                dateObj.workingToDate = dates.to
+            } else {
+                dateObj = { workingFromDate: dates.from, workingToDate: dates.to }
+            }
+        }
+
+    }
+
+    const continuousWorkingDays = findNumberOfDays(new Date(dateObj.workingFromDate), new Date(dateObj.workingToDate));
+
+    return { days: continuousWorkingDays, from: dateObj.workingFromDate, to: dateObj.workingToDate }
 }
 
 const removeInitialFromName = (name) => {
@@ -114,5 +146,5 @@ const isNameSimilar = (nameOne, nameTwo) => {
 
 module.exports = {
     textCapitalize, formatDate, getMonthAndYear, findNumberOfDays, getDatesBetween,
-    isHoliday, isContinuousWorkingDates, isNameSimilar
+    isHoliday, isContinuousWorkingDates, calculateContinuousWorkingDays, isNameSimilar
 }

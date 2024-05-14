@@ -31,6 +31,7 @@ const leaveSchema = new mongoose.Schema(
         from: {
             type: Date,
             required: true,
+            index: true,
         },
         to: {
             type: Date,

@@ -7,8 +7,7 @@ const Office = require('../../models/office/OfficeModel')
 const RegularEmployees = require('../../models/employee/regularEmployee/regularEmployeeModel')
 const Substitutes = require('../../models/employee/substituteEmployee/substituteEmployeeModel')
 const Holiday = require('../../models/holiday/holidayModel');
-const { formatDate, getMonthAndYear, textCapitalize, isNameSimilar, getDatesBetween, isHoliday } = require('../../service');
-const { parse } = require('path');
+const { formatDate, getMonthAndYear, textCapitalize, isNameSimilar, isContinuousWorkingDates, findNumberOfDays, calculateContinuousWorkingDays } = require('../../service');
 
 // common =================================================================
 const uploadLeaveToDB = ash(async (req, res) => {
@@ -74,7 +73,9 @@ const validateOffice = async (fromDate, toDate, designation, officeId, leaveMont
 }
 
 const validateSubstitute = async (fromDate, toDate, substituteId, leaveMonth) => {
-    const data = await Leave.findOne({
+
+    //isSubstituteWorking =========================
+    const isSubstituteWorking = await Leave.findOne({
         leaveMonth,
         substituteId,
         status: 1,
@@ -83,8 +84,24 @@ const validateSubstitute = async (fromDate, toDate, substituteId, leaveMonth) =>
             { $and: [{ from: { $lte: toDate } }, { to: { $gte: toDate } }] },     // toDate falls within leave period
             { $and: [{ from: { $gte: fromDate } }, { to: { $lte: toDate } }] }   // leave period falls within fromDate and toDate
         ]
-    }).select('officeName')
-    return data
+    }).select(['officeName', '-_id'])
+
+    return isSubstituteWorking
+}
+
+const updateWorkingDaysOfSubstitute = async (fromDate, toDate, substituteId) => {
+    const holidays = await Holiday.find()
+
+    const substitute = await Substitutes.findById(substituteId).select(['workStartDate', 'workEndDate'])
+    if (!substitute) throw new Error('Substitute Not Found')
+
+        const date = new Date(fromDate)
+        date.setDate(1)
+        const threeeMonthsBeforeDate = new Date(date.getFullYear(), date.getMonth() - 2);
+        const last3MonthsLeaveData = await Leave.find({ substituteId, status: 1, from: { $gte: threeeMonthsBeforeDate } }).limit(20).select(['from', 'to', '-_id'])
+        console.log({ last3MonthsLeaveData });
+        const continuousWorkingDays = calculateContinuousWorkingDays(holidays, last3MonthsLeaveData, fromDate, toDate)
+        await Substitutes.findByIdAndUpdate(substituteId, { workStartDate: continuousWorkingDays.from, workEndDate: continuousWorkingDays.to, workingDays: continuousWorkingDays.days })
 }
 
 const validatePaidLeave = async (from, employeeId, days) => {
@@ -108,10 +125,6 @@ const validatePaidLeave = async (from, employeeId, days) => {
 
     if ((totalLeaveDays + days) <= 10) return null
     return { totalLeaveDays, halfYear }
-}
-
-const isMoreThan45Days = async (req, res) => {
-    console.log(45);
 }
 
 
@@ -142,18 +155,21 @@ const createLeave = ash(async (req, res) => {
 
     if (new Date(from).getMonth() !== new Date(to).getMonth()) return res.status(401).json("Send separate leave letters for different months")
 
+    //validateOffice ====================
     const isValidOffice = await validateOffice(from, to, designation, officeId, leaveMonth)
     if (isValidOffice) {
         const message = textCapitalize(`${isValidOffice.substituteName} is Already scheduled to work as a ${designation} in this office.`)
         return res.status(401).json({ message })
     }
 
+    //validateSubstitute ==========================
     const isValidSubstitute = await validateSubstitute(from, to, substituteId, leaveMonth)
     if (isValidSubstitute) {
         const message = textCapitalize(`This substitute is already scheduled to work at ${isValidSubstitute.officeName} on this date.`)
         return res.status(401).json({ message })
     }
 
+    //validatePaidLeave ==========================
     if (leaveType === 'paid leave') {
         if (days > 10) return res.status(401).json({ message: "Paid Leave must be less than 10 days" })
 
@@ -162,6 +178,11 @@ const createLeave = ash(async (req, res) => {
             const message = textCapitalize(`this employee has already taken ${isValidPaidLeave.totalLeaveDays} days of paid leave in the ${isValidPaidLeave.halfYear} of the year `)
             return res.status(401).json({ message })
         }
+    }
+
+    // updateWorkingDaysOfSubstitute ========================
+    if (status) {
+        await updateWorkingDaysOfSubstitute(from, to, substituteId)
     }
 
     const leaveData = {
@@ -229,13 +250,15 @@ const updateLeave = ash(async (req, res) => {
         return res.status(401).json({ message })
     }
 
+    //validateSubstitute ==========================
     const isValidSubstitute = await validateSubstitute(from, to, substituteId, leaveMonth)
     if (isValidSubstitute) {
         const message = textCapitalize(`This substitute is already scheduled to work at ${isValidSubstitute.officeName} on this date.`)
         return res.status(401).json({ message })
     }
 
-    if (leaveType === 'paid leave') {
+     //validatePaidLeave ==========================
+     if (leaveType === 'paid leave') {
         if (days > 10) return res.status(401).json({ message: "Paid Leave must be less than 10 days" })
 
         const isValidPaidLeave = await validatePaidLeave(from, employeeId, days)
@@ -243,6 +266,11 @@ const updateLeave = ash(async (req, res) => {
             const message = textCapitalize(`this employee has already taken ${isValidPaidLeave.totalLeaveDays} days of paid leave in the ${isValidPaidLeave.halfYear} of the year `)
             return res.status(401).json({ message })
         }
+    }
+    
+    // updateWorkingDaysOfSubstitute ========================
+    if (status) {
+        await updateWorkingDaysOfSubstitute(from, to, substituteId)
     }
 
     const leaveData = {
