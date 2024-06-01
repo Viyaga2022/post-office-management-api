@@ -183,7 +183,7 @@ const createLeave = ash(async (req, res) => {
     }
 
     // updateWorkingDaysOfSubstitute ========================
-    if (status) {
+    if (status && substituteName !== "combined duty") {
         await updateWorkingDaysOfSubstitute(from, to, substituteId)
     }
 
@@ -273,7 +273,7 @@ const updateLeave = ash(async (req, res) => {
     }
 
     // updateWorkingDaysOfSubstitute ========================
-    if (status) {
+    if (status && substituteName !== "combined duty") {
         await updateWorkingDaysOfSubstitute(from, to, substituteId)
     }
 
