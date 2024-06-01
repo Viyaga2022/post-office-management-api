@@ -45,7 +45,7 @@ const leaveSchema = new mongoose.Schema(
         substituteId: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: "SubstituteEmployee",
-            // required: true,
+            required: true,
         },
         substituteName: {
             type: String,
